@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# ─────────────────────────────────────────
+# Multi-Cloud DR Platform - Diagram Setup
+# ─────────────────────────────────────────
+
+echo "📁 Creating docs directory if needed..."
+mkdir -p docs
+
+echo "📝 Writing architecture-diagram.drawio..."
+cat > docs/architecture-diagram.drawio << 'EOF'
+<mxfile host="app.diagrams.net">
+  <diagram name="Multi-Cloud DR Platform">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Multi-Cloud Disaster Recovery Platform" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="284" y="20" width="600" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="👤 Users / Internet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="484" y="80" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="🔵 Route 53&#xa;DNS Failover &amp; Health Checks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="459" y="200" width="250" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="DNS Request" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="3" target="4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="AWS (Primary)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9900;strokeColor=#d6b656;fontSize=15;fontStyle=1;verticalAlign=top;opacity=20;" vertex="1" parent="1">
+          <mxGeometry x="80" y="340" width="380" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="🟠 ECS Fargate&#xa;Frontend &amp; Backend" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9900;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="390" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="🟠 RDS PostgreSQL&#xa;Primary Database" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9900;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="480" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="🟠 S3 Bucket&#xa;Object Storage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9900;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="570" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="GCP (Secondary / Standby)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4285F4;fontColor=#ffffff;strokeColor=#1a56db;fontSize=15;fontStyle=1;verticalAlign=top;opacity=20;" vertex="1" parent="1">
+          <mxGeometry x="700" y="340" width="380" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="🔵 Cloud Run&#xa;Standby App" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4285F4;fontColor=#ffffff;strokeColor=#1a56db;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="740" y="390" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="🔵 Cloud SQL&#xa;PostgreSQL Replica" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4285F4;fontColor=#ffffff;strokeColor=#1a56db;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="740" y="480" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="🔵 GCS Bucket&#xa;Backup Storage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4285F4;fontColor=#ffffff;strokeColor=#1a56db;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="740" y="570" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="Normal Traffic" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#00aa00;fontColor=#00aa00;fontStyle=1;fontSize=11;" edge="1" source="4" target="6" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="Failover Traffic" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#FF0000;fontColor=#FF0000;fontStyle=1;fontSize=11;dashed=1;" edge="1" source="4" target="10" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="Scheduled DB Sync" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#9900cc;fontColor=#9900cc;fontStyle=1;fontSize=11;dashed=1;" edge="1" source="8" target="12" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="Backup Sync" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#9900cc;fontColor=#9900cc;fontStyle=1;fontSize=11;dashed=1;" edge="1" source="9" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="🔵 GCP Monitoring&#xa;Alerting &amp; Uptime Checks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#34A853;fontColor=#ffffff;strokeColor=#1e7e34;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="459" y="720" width="250" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="Health Check Alert" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#34A853;fontColor=#34A853;fontStyle=1;fontSize=11;dashed=1;" edge="1" source="18" target="4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+EOF
+
+echo "✅ Diagram file created at docs/architecture-diagram.drawio"
+
+echo "📦 Staging and committing to Git..."
+git add docs/architecture-diagram.drawio
+git commit -m "Add architecture diagram drawio source file"
+git push
+
+echo "🎉 Done! Open draw.io, click Extras > Edit Diagram, paste the file contents, export as PNG."

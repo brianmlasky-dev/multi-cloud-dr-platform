@@ -1,0 +1,52 @@
+# ─────────────────────────────────────────
+# GCP GKE Service - Northstar Commerce
+# ─────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: northstar-app-service
+  namespace: production
+  labels:
+    app: northstar-app
+  annotations:
+    cloud.google.com/load-balancer-type: "External"
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  selector:
+    app: northstar-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+  type: LoadBalancer
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: northstar-app-hpa
+  namespace: production
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: northstar-app
+  minReplicas: 0
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80

@@ -5,10 +5,12 @@ on:
     branches: [ main ]
     paths:
       - 'app/**'
+      - 'scripts/**'
   pull_request:
     branches: [ main ]
     paths:
       - 'app/**'
+      - 'scripts/**'
 
 jobs:
   test-app:
@@ -32,9 +34,20 @@ jobs:
         working-directory: app
         run: pip install --require-hashes -r requirements-dev.txt
 
-      - name: Run unit tests
+      - name: Run unit tests with coverage
         working-directory: app
-        run: python -m pytest tests/ -v
+        run: |
+          python -m pytest tests/ -v \
+            --cov=app \
+            --cov-report=term-missing \
+            --cov-report=xml:coverage.xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: app/coverage.xml
+          flags: unittests
+          fail_ci_if_error: false
 
       - name: Run app health check
         working-directory: app
@@ -84,3 +97,19 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: trivy-results.sarif
+
+  test-scripts:
+    name: BATS Shell Script Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install BATS
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y bats
+
+      - name: Run BATS tests
+        run: bats scripts/tests/

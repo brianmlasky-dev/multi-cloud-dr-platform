@@ -10,6 +10,11 @@
 ![PCI-DSS](https://img.shields.io/badge/PCI--DSS-Compliant-green?style=for-the-badge)
 ![SOC2](https://img.shields.io/badge/SOC2-Compliant-green?style=for-the-badge)
 
+[![Demo App CI](https://github.com/brianmlasky-dev/multi-cloud-dr-platform/actions/workflows/demo-app.yml/badge.svg)](https://github.com/brianmlasky-dev/multi-cloud-dr-platform/actions/workflows/demo-app.yml)
+[![Terraform Validate](https://github.com/brianmlasky-dev/multi-cloud-dr-platform/actions/workflows/terraform-validate.yml/badge.svg)](https://github.com/brianmlasky-dev/multi-cloud-dr-platform/actions/workflows/terraform-validate.yml)
+[![Security Scan](https://github.com/brianmlasky-dev/multi-cloud-dr-platform/actions/workflows/security-scan.yml/badge.svg)](https://github.com/brianmlasky-dev/multi-cloud-dr-platform/actions/workflows/security-scan.yml)
+[![codecov](https://codecov.io/gh/brianmlasky-dev/multi-cloud-dr-platform/branch/main/graph/badge.svg)](https://codecov.io/gh/brianmlasky-dev/multi-cloud-dr-platform)
+
 > **Designed and built by Brian M. Lasky**
 > Enterprise-grade multi-cloud disaster recovery platform for Crestline Financial —
 > a real-time payment processing company serving mid-market retailers and regional banks.
@@ -101,6 +106,23 @@ Crestline Financial's legacy single-cloud AWS deployment had three critical vuln
     source venv/bin/activate
     pip install -r requirements.txt
     gunicorn --bind 0.0.0.0:8080 --workers 2 --timeout 60 app:app
+
+### Run with Docker Compose (app + Postgres)
+
+    git clone https://github.com/brianmlasky-dev/multi-cloud-dr-platform.git
+    cd multi-cloud-dr-platform
+    docker compose up
+
+### Common Make Targets
+
+| Target | Description |
+|--------|-------------|
+| `make test` | Run Python unit tests |
+| `make test-cov` | Run tests with coverage report |
+| `make bats` | Run BATS shell-script tests |
+| `make lint-tf` | Check Terraform formatting |
+| `make act-test` | Simulate CI locally with `act` |
+| `make up` | Start local dev environment |
 
 ### API Endpoints
 

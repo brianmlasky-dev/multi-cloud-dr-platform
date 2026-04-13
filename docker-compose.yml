@@ -1,0 +1,55 @@
+version: "3.9"
+
+# ─────────────────────────────────────────
+# Crestline Financial DR Platform — Local Development
+#
+# Usage:
+#   docker compose up          # Start app + postgres
+#   docker compose up -d       # Detached mode
+#   docker compose down -v     # Stop and remove volumes
+#
+# App will be available at http://localhost:8080
+# ─────────────────────────────────────────
+
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      CLOUD_PROVIDER: aws
+      ENVIRONMENT: development
+      DB_HOST: postgres
+      DB_NAME: crestline_db
+      DB_USER: crestline_admin
+      DB_PASSWORD: local_dev_password
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: crestline_db
+      POSTGRES_USER: crestline_admin
+      POSTGRES_PASSWORD: local_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crestline_admin -d crestline_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:

@@ -105,3 +105,44 @@ Once AWS is restored and validated:
 | P1 — active outage | Page on-call lead immediately |
 | P2 — degraded | Notify team channel within 15 min |
 | Post-incident | File RCA within 48 hours |
+
+---
+
+## 7. Secret Rotation
+
+DB passwords rotate automatically every 30 days via the
+`aws_secretsmanager_secret_rotation` Terraform resource
+(`infrastructure/aws/secrets_rotation.tf`).
+
+### Manual rotation trigger
+
+```bash
+# Force immediate rotation (e.g., after a suspected credential leak)
+aws secretsmanager rotate-secret \
+  --secret-id multi-cloud-dr/db-password \
+  --region us-east-1
+```
+
+### Verify rotation status
+
+```bash
+aws secretsmanager describe-secret \
+  --secret-id multi-cloud-dr/db-password \
+  --region us-east-1 \
+  --query "{LastRotated:LastRotatedDate,NextRotation:NextRotationDate,RotationEnabled:RotationEnabled}"
+```
+
+### After a rotation, restart ECS so tasks pick up the new secret
+
+```bash
+aws ecs update-service \
+  --cluster multi-cloud-dr-cluster \
+  --service multi-cloud-dr-service \
+  --force-new-deployment \
+  --region us-east-1
+```
+
+> **Note:** ECS Fargate fetches secrets at task launch time. The
+> `aws_secretsmanager_secret_rotation` Lambda handles updating both the
+> secret value and the RDS user password atomically, so no manual DB
+> password change is required.

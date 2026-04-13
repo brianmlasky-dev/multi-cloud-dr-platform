@@ -1,19 +1,19 @@
 # ─────────────────────────────────────────
-# GCP GKE Service - Northstar Commerce
+# GCP GKE Service - Crestline Financial
 # ─────────────────────────────────────────
 apiVersion: v1
 kind: Service
 metadata:
-  name: northstar-app-service
+  name: crestline-app-service
   namespace: production
   labels:
-    app: northstar-app
+    app: crestline-app
   annotations:
     cloud.google.com/load-balancer-type: "External"
     cloud.google.com/neg: '{"ingress": true}'
 spec:
   selector:
-    app: northstar-app
+    app: crestline-app
   ports:
     - name: http
       protocol: TCP
@@ -28,13 +28,13 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: northstar-app-hpa
+  name: crestline-app-hpa
   namespace: production
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: northstar-app
+    name: crestline-app
   minReplicas: 0
   maxReplicas: 10
   metrics:

@@ -49,12 +49,12 @@ jobs:
       - name: Build Docker image
         working-directory: app
         run: |
-          docker build -t northstar-dr-app:latest .
+          docker build -t crestline-dr-app:latest .
           echo "Docker build successful!"
 
       - name: Test Docker container
         run: |
-          docker run -d -p 8080:8080 --name test-app northstar-dr-app:latest
+          docker run -d -p 8080:8080 --name test-app crestline-dr-app:latest
           sleep 5
           curl -f http://localhost:8080/health && echo "Docker health check passed!"
           docker stop test-app

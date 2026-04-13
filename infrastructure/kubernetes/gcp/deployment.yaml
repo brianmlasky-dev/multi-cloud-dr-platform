@@ -1,13 +1,13 @@
 # ─────────────────────────────────────────
-# GCP GKE Deployment - Northstar Commerce
+# GCP GKE Deployment - Crestline Financial
 # ─────────────────────────────────────────
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: northstar-app
+  name: crestline-app
   namespace: production
   labels:
-    app: northstar-app
+    app: crestline-app
     environment: production
     managed-by: terraform
     owner: brian-m-lasky
@@ -15,7 +15,7 @@ spec:
   replicas: 0
   selector:
     matchLabels:
-      app: northstar-app
+      app: crestline-app
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -24,11 +24,11 @@ spec:
   template:
     metadata:
       labels:
-        app: northstar-app
+        app: crestline-app
         environment: production
     spec:
       containers:
-        - name: northstar-app
+        - name: crestline-app
           image: nginx:latest
           ports:
             - containerPort: 80

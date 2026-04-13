@@ -5,7 +5,7 @@
 variable "gcp_project_id" {
   description = "GCP Project ID"
   type        = string
-  default     = "northstar-dr-platform"
+  default     = "multi-cloud-dr-platform"
 }
 
 variable "gcp_region" {
@@ -23,7 +23,7 @@ variable "environment" {
 variable "project_name" {
   description = "Project name used for resource naming"
   type        = string
-  default     = "northstar-dr"
+  default     = "multi-cloud-dr"
 }
 
 variable "vpc_cidr" {
@@ -47,7 +47,7 @@ variable "db_password" {
 variable "db_name" {
   description = "Name of the PostgreSQL database"
   type        = string
-  default     = "northstar_db"
+  default     = "crestline_db"
 }
 
 variable "app_image" {

@@ -3,7 +3,7 @@
 # ─────────────────────────────────────────
 
 resource "google_monitoring_uptime_check_config" "primary" {
-  display_name = "northstar-primary-uptime"
+  display_name = "crestline-primary-uptime"
   timeout      = "10s"
   period       = "60s"
 
@@ -18,13 +18,13 @@ resource "google_monitoring_uptime_check_config" "primary" {
     type = "uptime_url"
     labels = {
       project_id = var.gcp_project_id
-      host       = "app.northstarcommerce.com"
+      host       = "app.crestlinefinancial.com"
     }
   }
 }
 
 resource "google_monitoring_uptime_check_config" "standby" {
-  display_name = "northstar-standby-uptime"
+  display_name = "crestline-standby-uptime"
   timeout      = "10s"
   period       = "60s"
 
@@ -39,7 +39,7 @@ resource "google_monitoring_uptime_check_config" "standby" {
     type = "uptime_url"
     labels = {
       project_id = var.gcp_project_id
-      host       = "standby.northstarcommerce.com"
+      host       = "standby.crestlinefinancial.com"
     }
   }
 }
@@ -95,5 +95,5 @@ resource "google_monitoring_alert_policy" "uptime_failure" {
 variable "gcp_project_id" {
   description = "GCP Project ID"
   type        = string
-  default     = "northstar-dr-platform"
+  default     = "multi-cloud-dr-platform"
 }

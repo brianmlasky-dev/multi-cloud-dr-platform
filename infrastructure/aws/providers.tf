@@ -10,7 +10,7 @@ terraform {
 
   # Remote state stored in S3 (exam topic: backends)
   backend "s3" {
-    bucket = "northstar-dr-terraform-state"
+    bucket = "multi-cloud-dr-terraform-state"
     key    = "aws/terraform.tfstate"
     region = "us-east-1"
   }

@@ -49,7 +49,7 @@ resource "google_storage_bucket" "app" {
 
 # Sync bucket from AWS S3 via scheduled job
 resource "google_storage_bucket" "terraform_state" {
-  name          = "northstar-dr-terraform-state"
+  name          = "multi-cloud-dr-terraform-state"
   location      = var.gcp_region
   force_destroy = false
 

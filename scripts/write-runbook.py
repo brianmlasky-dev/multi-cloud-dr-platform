@@ -3,7 +3,7 @@ content = open("scripts/write-runbook.py").read()
 runbook = """# 🚨 Disaster Recovery Runbook
 **Project:** Multi-Cloud DR Platform  
 **Author:** Brian M. Lasky  
-**Organization:** Northstar Commerce  
+**Organization:** Crestline Financial  
 **Last Updated:** April 2026  
 **Version:** 1.0
 
@@ -76,20 +76,20 @@ and can be activated within the RTO window.
 ### Step 1: Verify the Outage
 
     # Check AWS health
-    curl -f https://app.northstarcommerce.com/health || echo "PRIMARY DOWN"
+    curl -f https://app.crestlinefinancial.com/health || echo "PRIMARY DOWN"
 
     # Check GCP standby health
-    curl -f https://standby.northstarcommerce.com/health || echo "STANDBY DOWN"
+    curl -f https://standby.crestlinefinancial.com/health || echo "STANDBY DOWN"
 
 ### Step 2: Promote GCP Cloud SQL to Primary
 
-    gcloud sql instances patch northstar-dr-postgres \\
+    gcloud sql instances patch crestline-dr-postgres \\
       --activation-policy=ALWAYS \\
-      --project=northstar-dr-platform
+      --project=multi-cloud-dr-platform
 
 ### Step 3: Scale Up Cloud Run
 
-    gcloud run services update northstar-dr-app \\
+    gcloud run services update crestline-dr-app \\
       --min-instances=2 \\
       --max-instances=10 \\
       --region=us-central1
@@ -102,8 +102,8 @@ and can be activated within the RTO window.
 
 ### Step 5: Verify Failover
 
-    dig app.northstarcommerce.com
-    curl -f https://app.northstarcommerce.com/health && echo "FAILOVER SUCCESS"
+    dig app.crestlinefinancial.com
+    curl -f https://app.crestlinefinancial.com/health && echo "FAILOVER SUCCESS"
 
 ---
 
@@ -112,8 +112,8 @@ and can be activated within the RTO window.
 ### Step 1: Verify AWS Environment Health
 
     aws ecs describe-services \\
-      --cluster northstar-dr-cluster \\
-      --services northstar-dr-service \\
+      --cluster crestline-dr-cluster \\
+      --services crestline-dr-service \\
       --region us-east-1
 
 ### Step 2: Sync Data Back to AWS RDS
@@ -128,14 +128,14 @@ and can be activated within the RTO window.
 
 ### Step 4: Scale Down GCP Standby
 
-    gcloud run services update northstar-dr-app \\
+    gcloud run services update crestline-dr-app \\
       --min-instances=0 \\
       --max-instances=5 \\
       --region=us-central1
 
 ### Step 5: Verify Failback
 
-    curl -f https://app.northstarcommerce.com/health && echo "FAILBACK SUCCESS"
+    curl -f https://app.crestlinefinancial.com/health && echo "FAILBACK SUCCESS"
 
 ---
 

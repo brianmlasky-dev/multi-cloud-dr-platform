@@ -10,7 +10,7 @@ terraform {
 
   # Remote state stored in GCS (exam topic: backends)
   backend "gcs" {
-    bucket = "northstar-dr-terraform-state"
+    bucket = "multi-cloud-dr-terraform-state"
     prefix = "gcp/terraform.tfstate"
   }
 }

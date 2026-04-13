@@ -16,19 +16,19 @@ resource "aws_iam_account_password_policy" "strict" {
 
 # ── AWS CloudTrail ──
 resource "aws_cloudtrail" "main" {
-  name                          = "northstar-dr-trail"
+  name                          = "multi-cloud-dr-trail"
   s3_bucket_name                = aws_s3_bucket.cloudtrail.id
   include_global_service_events = true
   is_multi_region_trail         = true
   enable_log_file_validation    = true
 
   tags = {
-    Name = "northstar-dr-cloudtrail"
+    Name = "multi-cloud-dr-cloudtrail"
   }
 }
 
 resource "aws_s3_bucket" "cloudtrail" {
-  bucket        = "northstar-dr-cloudtrail-logs"
+  bucket        = "multi-cloud-dr-cloudtrail-logs"
   force_destroy = false
 }
 
@@ -67,7 +67,7 @@ resource "aws_guardduty_detector" "main" {
 
 # ── GCP Security Policy ──
 resource "google_compute_security_policy" "main" {
-  name = "northstar-dr-security-policy"
+  name = "multi-cloud-dr-security-policy"
 
   rule {
     action   = "deny(403)"
@@ -96,7 +96,7 @@ resource "google_compute_security_policy" "main" {
 
 # ── GCP Audit Logging ──
 resource "google_project_iam_audit_config" "main" {
-  project = "northstar-dr-platform"
+  project = var.gcp_project_id
   service = "allServices"
 
   audit_log_config {

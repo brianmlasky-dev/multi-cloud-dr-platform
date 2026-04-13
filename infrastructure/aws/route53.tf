@@ -3,7 +3,7 @@
 # ─────────────────────────────────────────
 
 resource "aws_route53_health_check" "primary" {
-  fqdn              = "app.northstarcommerce.com"
+  fqdn              = "app.crestlinefinancial.com"
   port              = 443
   type              = "HTTPS"
   resource_path     = "/health"
@@ -16,12 +16,12 @@ resource "aws_route53_health_check" "primary" {
 }
 
 resource "aws_route53_zone" "main" {
-  name = "northstarcommerce.com"
+  name = "crestlinefinancial.com"
 }
 
 resource "aws_route53_record" "primary" {
   zone_id = aws_route53_zone.main.zone_id
-  name    = "app.northstarcommerce.com"
+  name    = "app.crestlinefinancial.com"
   type    = "A"
 
   failover_routing_policy {
@@ -32,7 +32,7 @@ resource "aws_route53_record" "primary" {
   health_check_id = aws_route53_health_check.primary.id
 
   alias {
-    name                   = "primary-alb.northstarcommerce.com"
+    name                   = "primary-alb.crestlinefinancial.com"
     zone_id                = aws_route53_zone.main.zone_id
     evaluate_target_health = true
   }

@@ -101,6 +101,8 @@ jobs:
   test-scripts:
     name: BATS Shell Script Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout code

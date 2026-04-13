@@ -1,0 +1,16 @@
+# Global owner — all files require review from @brianmlasky-dev
+*                           @brianmlasky-dev
+
+# Infrastructure changes require careful review
+infrastructure/             @brianmlasky-dev
+infrastructure/aws/         @brianmlasky-dev
+infrastructure/gcp/         @brianmlasky-dev
+infrastructure/kubernetes/  @brianmlasky-dev
+infrastructure/security/    @brianmlasky-dev
+infrastructure/monitoring/  @brianmlasky-dev
+
+# CI/CD pipeline changes require review
+.github/                    @brianmlasky-dev
+
+# Application changes
+app/                        @brianmlasky-dev

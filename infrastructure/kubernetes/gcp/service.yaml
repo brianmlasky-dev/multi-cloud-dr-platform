@@ -35,7 +35,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: crestline-app
-  minReplicas: 0
+  minReplicas: 1
   maxReplicas: 10
   metrics:
     - type: Resource
@@ -50,3 +50,14 @@ spec:
         target:
           type: Utilization
           averageUtilization: 80
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: crestline-app-pdb
+  namespace: production
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: crestline-app

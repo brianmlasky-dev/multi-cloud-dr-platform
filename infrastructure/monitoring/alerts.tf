@@ -2,6 +2,16 @@
 # GCP Monitoring - Alerts & Uptime Checks
 # ─────────────────────────────────────────
 
+resource "google_monitoring_notification_channel" "email" {
+  count        = var.alert_email != "" ? 1 : 0
+  display_name = "DR Platform Alert Email"
+  type         = "email"
+
+  labels = {
+    email_address = var.alert_email
+  }
+}
+
 resource "google_monitoring_uptime_check_config" "primary" {
   display_name = "crestline-primary-uptime"
   timeout      = "10s"
@@ -62,7 +72,7 @@ resource "google_monitoring_alert_policy" "high_latency" {
     }
   }
 
-  notification_channels = []
+  notification_channels = length(google_monitoring_notification_channel.email) > 0 ? [google_monitoring_notification_channel.email[0].name] : []
   alert_strategy {
     auto_close = "1800s"
   }
@@ -86,14 +96,8 @@ resource "google_monitoring_alert_policy" "uptime_failure" {
     }
   }
 
-  notification_channels = []
+  notification_channels = length(google_monitoring_notification_channel.email) > 0 ? [google_monitoring_notification_channel.email[0].name] : []
   alert_strategy {
     auto_close = "1800s"
   }
-}
-
-variable "gcp_project_id" {
-  description = "GCP Project ID"
-  type        = string
-  default     = "multi-cloud-dr-platform"
 }

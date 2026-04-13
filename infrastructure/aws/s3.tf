@@ -29,3 +29,31 @@ resource "aws_s3_bucket_public_access_block" "app" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+resource "aws_s3_bucket_lifecycle_configuration" "app" {
+  bucket = aws_s3_bucket.app.id
+
+  rule {
+    id     = "expire-noncurrent-versions"
+    status = "Enabled"
+
+    noncurrent_version_expiration {
+      noncurrent_days = 30
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 7
+      storage_class   = "STANDARD_IA"
+    }
+  }
+
+  rule {
+    id     = "transition-to-glacier"
+    status = "Enabled"
+
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+  }
+}

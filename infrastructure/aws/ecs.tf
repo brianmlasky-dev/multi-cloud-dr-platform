@@ -11,6 +11,21 @@ resource "aws_ecs_cluster" "main" {
   }
 }
 
+resource "aws_cloudwatch_log_group" "app" {
+  name              = "/ecs/${var.project_name}"
+  retention_in_days = 30
+}
+
+resource "aws_secretsmanager_secret" "db_password" {
+  name                    = "${var.project_name}/db-password"
+  recovery_window_in_days = 7
+}
+
+resource "aws_secretsmanager_secret_version" "db_password" {
+  secret_id     = aws_secretsmanager_secret.db_password.id
+  secret_string = var.db_password
+}
+
 resource "aws_ecs_task_definition" "app" {
   family                   = "${var.project_name}-task"
   network_mode             = "awsvpc"
@@ -32,6 +47,20 @@ resource "aws_ecs_task_definition" "app" {
       { name = "DB_HOST", value = aws_db_instance.main.address },
       { name = "DB_NAME", value = var.db_name }
     ]
+    secrets = [
+      {
+        name      = "DB_PASSWORD"
+        valueFrom = aws_secretsmanager_secret.db_password.arn
+      }
+    ]
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        "awslogs-group"         = aws_cloudwatch_log_group.app.name
+        "awslogs-region"        = var.aws_region
+        "awslogs-stream-prefix" = "ecs"
+      }
+    }
   }])
 }
 
@@ -48,7 +77,16 @@ resource "aws_ecs_service" "app" {
     assign_public_ip = false
   }
 
-  depends_on = [aws_iam_role.ecs_task_execution]
+  load_balancer {
+    target_group_arn = aws_lb_target_group.app.arn
+    container_name   = "app"
+    container_port   = 80
+  }
+
+  depends_on = [
+    aws_iam_role.ecs_task_execution,
+    aws_lb_listener.app,
+  ]
 }
 
 resource "aws_security_group" "ecs" {
@@ -57,10 +95,10 @@ resource "aws_security_group" "ecs" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb.id]
   }
 
   egress {
@@ -87,4 +125,18 @@ resource "aws_iam_role" "ecs_task_execution" {
 resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
   role       = aws_iam_role.ecs_task_execution.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role_policy" "ecs_secrets" {
+  name = "${var.project_name}-ecs-secrets-policy"
+  role = aws_iam_role.ecs_task_execution.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["secretsmanager:GetSecretValue"]
+      Resource = [aws_secretsmanager_secret.db_password.arn]
+    }]
+  })
 }

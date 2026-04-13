@@ -111,9 +111,3 @@ resource "google_project_iam_audit_config" "main" {
     log_type = "DATA_WRITE"
   }
 }
-
-variable "aws_region" {
-  description = "AWS region"
-  type        = string
-  default     = "us-east-1"
-}

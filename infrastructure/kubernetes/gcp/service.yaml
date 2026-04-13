@@ -21,35 +21,13 @@ spec:
       targetPort: 8080
   type: LoadBalancer
 ---
-# NOTE: Standard HPA is incompatible with scale-to-zero (replicas: 0) in the pilot light
-# standby pattern. For event-driven scale-to-zero on GKE, use KEDA (Kubernetes Event-Driven
-# Autoscaling). During failover, the failover automation scales the deployment to >= 1 replica,
-# after which this HPA takes over to auto-scale based on load.
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: crestline-app-hpa
-  namespace: production
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: crestline-app
-  minReplicas: 1
-  maxReplicas: 10
-  metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 70
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: 80
+# NOTE: Standard HPA cannot scale to/from zero. For event-driven scale-to-zero on GKE
+# (pilot light standby), use KEDA (Kubernetes Event-Driven Autoscaling). During failover,
+# the failover automation sets replicas >= 1, after which KEDA handles auto-scaling.
+# See: https://keda.sh/
+#
+# When the standby is activated (replicas > 0), re-apply this manifest with a KEDA
+# ScaledObject, or use kubectl scale deployment crestline-app --replicas=<N>.
 ---
 apiVersion: policy/v1
 kind: PodDisruptionBudget

@@ -21,7 +21,6 @@ resource "aws_route53_zone" "main" {
 
 resource "aws_route53_health_check" "secondary" {
   ip_address        = var.gcp_standby_ip
-  fqdn              = "standby.crestlinefinancial.com"
   port              = 443
   type              = "HTTPS"
   resource_path     = "/health"

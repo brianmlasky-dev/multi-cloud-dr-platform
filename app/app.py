@@ -5,10 +5,13 @@ import random
 
 app = Flask(__name__)
 
+<<<<<<< HEAD
 # Crestline Financial Payment Platform - Demo App
 # Author: Brian M. Lasky
 # Organization: Crestline Financial
 
+=======
+>>>>>>> 71c5ce5 (Fix Flask app and verify working demo routes)
 CLOUD_PROVIDER = os.environ.get("CLOUD_PROVIDER", "aws")
 ENVIRONMENT = os.environ.get("ENVIRONMENT", "production")
 VERSION = "1.0.0"
@@ -67,6 +70,7 @@ def status():
             "availability_target": "99.95%",
             "services": {
                 "compute": "ECS Fargate" if CLOUD_PROVIDER == "aws" else "Cloud Run",
+<<<<<<< HEAD
                 "database": "RDS PostgreSQL"
                 if CLOUD_PROVIDER == "aws"
                 else "Cloud SQL PostgreSQL",
@@ -75,6 +79,12 @@ def status():
                 "monitoring": "CloudWatch"
                 if CLOUD_PROVIDER == "aws"
                 else "GCP Monitoring",
+=======
+                "database": "RDS PostgreSQL" if CLOUD_PROVIDER == "aws" else "Cloud SQL PostgreSQL",
+                "storage": "S3 Bucket" if CLOUD_PROVIDER == "aws" else "GCS Bucket",
+                "dns": "Route 53 Failover",
+                "monitoring": "CloudWatch" if CLOUD_PROVIDER == "aws" else "GCP Monitoring",
+>>>>>>> 71c5ce5 (Fix Flask app and verify working demo routes)
             },
             "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
         }

@@ -1,3 +1,4 @@
+HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,3 +126,130 @@
   </div>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crestline Financial Payment Platform</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .header {
+      margin-bottom: 24px;
+    }
+    .title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #93c5fd;
+      font-size: 1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    }
+    .label {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    .status-primary {
+      color: #22c55e;
+    }
+    .status-standby {
+      color: #f59e0b;
+    }
+    .footer {
+      margin-top: 28px;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+    code {
+      background: #111827;
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: #93c5fd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="title">Crestline Financial Payment Platform</div>
+      <div class="subtitle">Multi-Cloud Disaster Recovery Demo</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="label">Cloud Provider</div>
+        <div class="value">{{ cloud }}</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Environment</div>
+        <div class="value">{{ environment }}</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Version</div>
+        <div class="value">{{ version }}</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Uptime</div>
+        <div class="value">{{ uptime }}</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Region</div>
+        <div class="value">{{ region }}</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Role</div>
+        <div class="value {% if status == 'PRIMARY' %}status-primary{% else %}status-standby{% endif %}">
+          {{ status }}
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      API endpoints available:
+      <code>/health</code>
+      <code>/status</code>
+      <code>/metrics</code>
+      <code>/failover</code>
+    </div>
+  </div>
+</body>
+</html>
+71c5ce5 (Fix Flask app and verify working demo routes)

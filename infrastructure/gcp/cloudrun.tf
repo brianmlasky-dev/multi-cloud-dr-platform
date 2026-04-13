@@ -17,7 +17,7 @@ resource "google_cloud_run_v2_service" "app" {
       image = var.app_image
 
       ports {
-        container_port = 80
+        container_port = 8080
       }
 
       resources {
@@ -53,8 +53,10 @@ resource "google_cloud_run_v2_service" "app" {
   }
 }
 
-# Allow unauthenticated access (public app)
+# Allow unauthenticated access only when explicitly enabled (e.g., during failover).
+# Set cloud_run_public_access = true in the GCP workspace when activating the standby.
 resource "google_cloud_run_v2_service_iam_member" "public" {
+  count    = var.cloud_run_public_access ? 1 : 0
   project  = var.gcp_project_id
   location = var.gcp_region
   name     = google_cloud_run_v2_service.app.name

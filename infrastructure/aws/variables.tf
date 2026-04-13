@@ -41,7 +41,7 @@ variable "private_subnet_cidrs" {
 variable "app_image" {
   description = "Docker image URI for ECS task"
   type        = string
-  default     = "nginx:latest"
+  default     = "nginx:1.27.4"
 }
 
 variable "db_name" {
@@ -60,4 +60,10 @@ variable "db_password" {
   description = "RDS master password"
   type        = string
   sensitive   = true
+}
+
+variable "gcp_standby_ip" {
+  description = "Static IP address of the GCP standby load balancer (output from GCP Terraform workspace)"
+  type        = string
+  default     = ""
 }

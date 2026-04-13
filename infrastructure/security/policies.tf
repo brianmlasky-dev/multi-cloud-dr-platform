@@ -49,6 +49,40 @@ resource "aws_s3_bucket_public_access_block" "cloudtrail" {
   restrict_public_buckets = true
 }
 
+# Required bucket policy for CloudTrail log delivery
+resource "aws_s3_bucket_policy" "cloudtrail" {
+  bucket = aws_s3_bucket.cloudtrail.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AWSCloudTrailAclCheck"
+        Effect = "Allow"
+        Principal = {
+          Service = "cloudtrail.amazonaws.com"
+        }
+        Action   = "s3:GetBucketAcl"
+        Resource = "arn:aws:s3:::${aws_s3_bucket.cloudtrail.bucket}"
+      },
+      {
+        Sid    = "AWSCloudTrailWrite"
+        Effect = "Allow"
+        Principal = {
+          Service = "cloudtrail.amazonaws.com"
+        }
+        Action   = "s3:PutObject"
+        Resource = "arn:aws:s3:::${aws_s3_bucket.cloudtrail.bucket}/AWSLogs/*"
+        Condition = {
+          StringEquals = {
+            "s3:x-amz-acl" = "bucket-owner-full-control"
+          }
+        }
+      }
+    ]
+  })
+}
+
 # ── AWS GuardDuty ──
 resource "aws_guardduty_detector" "main" {
   enable = true
@@ -75,10 +109,11 @@ resource "google_compute_security_policy" "main" {
     match {
       versioned_expr = "SRC_IPS_V1"
       config {
-        src_ip_ranges = ["9.9.9.0/24"]
+        # RFC 5737 TEST-NET-2 used as placeholder; replace with real threat intel feeds.
+        src_ip_ranges = ["198.51.100.0/24"]
       }
     }
-    description = "Block suspicious IP range"
+    description = "Block known malicious IP ranges (update with real threat intel)"
   }
 
   rule {

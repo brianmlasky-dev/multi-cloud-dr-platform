@@ -31,7 +31,7 @@ spec:
         - name: crestline-app
           image: nginx:1.27.4
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           resources:
             requests:
               cpu: "250m"
@@ -42,14 +42,14 @@ spec:
           readinessProbe:
             httpGet:
               path: /health
-              port: 80
+              port: 8080
             initialDelaySeconds: 10
             periodSeconds: 5
             failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /health
-              port: 80
+              port: 8080
             initialDelaySeconds: 15
             periodSeconds: 10
             failureThreshold: 3
@@ -68,3 +68,11 @@ spec:
                 secretKeyRef:
                   name: db-credentials
                   key: password
+      # Spread pods across zones for HA (activated when replicas > 1 during failover)
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: crestline-app

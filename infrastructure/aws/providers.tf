@@ -10,9 +10,11 @@ terraform {
 
   # Remote state stored in S3 (exam topic: backends)
   backend "s3" {
-    bucket = "multi-cloud-dr-terraform-state"
-    key    = "aws/terraform.tfstate"
-    region = "us-east-1"
+    bucket         = "multi-cloud-dr-terraform-state"
+    key            = "aws/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "multi-cloud-dr-terraform-locks"
+    encrypt        = true
   }
 }
 

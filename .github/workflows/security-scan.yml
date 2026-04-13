@@ -47,13 +47,13 @@ jobs:
         uses: aquasecurity/tfsec-action@v1.0.3
         with:
           working_directory: infrastructure/aws
-          soft_fail: true
+          soft_fail: false
 
       - name: Run tfsec on GCP
         uses: aquasecurity/tfsec-action@v1.0.3
         with:
           working_directory: infrastructure/gcp
-          soft_fail: true
+          soft_fail: false
 
   checkov-scan:
     name: Checkov IaC Security Scan
@@ -68,5 +68,5 @@ jobs:
         with:
           directory: infrastructure/
           framework: terraform
-          soft_fail: true
+          soft_fail: false
           output_format: cli

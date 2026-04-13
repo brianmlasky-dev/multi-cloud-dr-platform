@@ -24,7 +24,7 @@ spec:
               app: ingress-gce
       ports:
         - protocol: TCP
-          port: 80
+          port: 8080
   egress:
     # Allow DNS resolution
     - ports:

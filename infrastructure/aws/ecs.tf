@@ -39,8 +39,8 @@ resource "aws_ecs_task_definition" "app" {
     image     = var.app_image
     essential = true
     portMappings = [{
-      containerPort = 80
-      hostPort      = 80
+      containerPort = 8080
+      hostPort      = 8080
       protocol      = "tcp"
     }]
     environment = [
@@ -80,7 +80,7 @@ resource "aws_ecs_service" "app" {
   load_balancer {
     target_group_arn = aws_lb_target_group.app.arn
     container_name   = "app"
-    container_port   = 80
+    container_port   = 8080
   }
 
   depends_on = [
@@ -95,8 +95,8 @@ resource "aws_security_group" "ecs" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    from_port       = 80
-    to_port         = 80
+    from_port       = 8080
+    to_port         = 8080
     protocol        = "tcp"
     security_groups = [aws_security_group.alb.id]
   }

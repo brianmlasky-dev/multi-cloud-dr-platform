@@ -28,3 +28,8 @@ output "gcs_bucket_name" {
   description = "GCS DR storage bucket name"
   value       = google_storage_bucket.app.name
 }
+
+output "standby_static_ip" {
+  description = "GCP global static IP for the standby endpoint (supply this as var.gcp_standby_ip in the AWS workspace)"
+  value       = google_compute_global_address.standby.address
+}

@@ -31,8 +31,8 @@ jobs:
       - name: Run app health check
         working-directory: app
         run: |
-          python app.py &
-          sleep 3
+          gunicorn --bind 0.0.0.0:8080 --workers 2 --timeout 60 app:app &
+          sleep 5
           curl -f http://localhost:8080/health && echo "Health check passed!"
           curl -f http://localhost:8080/status && echo "Status check passed!"
           curl -f http://localhost:8080/metrics && echo "Metrics check passed!"

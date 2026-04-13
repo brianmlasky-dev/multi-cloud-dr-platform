@@ -47,6 +47,7 @@ resource "aws_db_instance" "main" {
   vpc_security_group_ids    = [aws_security_group.rds.id]
   multi_az                  = true
   publicly_accessible       = false
+  deletion_protection       = true
   skip_final_snapshot       = false
   final_snapshot_identifier = "${var.project_name}-postgres-final-snapshot"
   backup_retention_period   = 7

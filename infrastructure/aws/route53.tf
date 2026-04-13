@@ -20,6 +20,7 @@ resource "aws_route53_zone" "main" {
 }
 
 resource "aws_route53_health_check" "secondary" {
+  ip_address        = var.gcp_standby_ip
   fqdn              = "standby.crestlinefinancial.com"
   port              = 443
   type              = "HTTPS"
@@ -51,6 +52,9 @@ resource "aws_route53_record" "primary" {
   }
 }
 
+# Secondary record points directly at the GCP standby static IP.
+# The IP is exported from the GCP Terraform workspace (infrastructure/gcp)
+# and supplied here as var.gcp_standby_ip.
 resource "aws_route53_record" "secondary" {
   zone_id = aws_route53_zone.main.zone_id
   name    = "app.crestlinefinancial.com"
@@ -62,10 +66,6 @@ resource "aws_route53_record" "secondary" {
 
   set_identifier  = "secondary"
   health_check_id = aws_route53_health_check.secondary.id
-
-  alias {
-    name                   = "standby.crestlinefinancial.com"
-    zone_id                = aws_route53_zone.main.zone_id
-    evaluate_target_health = true
-  }
+  ttl             = 60
+  records         = [var.gcp_standby_ip]
 }

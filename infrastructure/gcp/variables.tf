@@ -53,7 +53,7 @@ variable "db_name" {
 variable "app_image" {
   description = "Docker image URI for Cloud Run service"
   type        = string
-  default     = "nginx:latest"
+  default     = "nginx:1.27.4"
 }
 
 variable "cloud_run_min_instances" {
@@ -66,4 +66,10 @@ variable "cloud_run_max_instances" {
   description = "Maximum number of Cloud Run instances"
   type        = number
   default     = 5
+}
+
+variable "cloud_run_public_access" {
+  description = "When true, grants allUsers invoker access to Cloud Run (set to true during failover activation)"
+  type        = bool
+  default     = false
 }

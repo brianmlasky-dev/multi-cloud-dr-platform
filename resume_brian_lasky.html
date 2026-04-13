@@ -1,182 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brian M. Lasky - Cloud Engineer Resume</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, sans-serif; background: #f0f2f5; color: #1a1a2e; font-size: 14px; line-height: 1.6; }
-.page { max-width: 900px; margin: 30px auto; background: #ffffff; box-shadow: 0 4px 24px rgba(0,0,0,0.15); }
-.header { background: linear-gradient(135deg, #0f3460 0%, #16213e 60%, #0f3460 100%); color: white; padding: 40px 50px 30px 50px; }
-.header h1 { font-size: 36px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
-.tagline { font-size: 13px; color: #64b5f6; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; }
-.divider { width: 60px; height: 3px; background: #64b5f6; margin-bottom: 18px; }
-.contact-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 6px 30px; }
-.contact-item { font-size: 12.5px; color: #cfd8dc; }
-.contact-item a { color: #cfd8dc; text-decoration: none; }
-.body { display: grid; grid-template-columns: 270px 1fr; }
-.sidebar { background: #f8f9fb; border-right: 1px solid #e8ecf0; padding: 28px 22px; }
-.sidebar-title { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #0f3460; border-bottom: 2px solid #0f3460; padding-bottom: 6px; margin-bottom: 12px; }
-.sidebar-section { margin-bottom: 24px; }
-.cert-item { margin-bottom: 11px; padding-bottom: 11px; border-bottom: 1px solid #e8ecf0; }
-.cert-item:last-child { border-bottom: none; }
-.cert-name { font-size: 11.5px; font-weight: 700; color: #1a1a2e; line-height: 1.4; }
-.cert-issuer { font-size: 10.5px; color: #0f3460; margin-top: 2px; }
-.cert-year { font-size: 10px; color: #90a4ae; margin-top: 1px; }
-.badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-top: 3px; text-transform: uppercase; }
-.badge.gold { background: linear-gradient(135deg,#b8860b,#daa520); color: white; }
-.badge.blue { background: #0f3460; color: white; }
-.skill-group { margin-bottom: 10px; }
-.skill-label { font-size: 10px; font-weight: 700; color: #0f3460; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-.skill-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-.tag { font-size: 10.5px; padding: 2px 8px; border-radius: 3px; font-weight: 500; }
-.tag.dk { background: #0f3460; color: white; }
-.tag.lt { background: #e8f0fe; color: #0f3460; }
-.edu-degree { font-size: 12px; font-weight: 700; color: #1a1a2e; }
-.edu-school { font-size: 11px; color: #0f3460; margin-top: 2px; }
-.edu-year { font-size: 10px; color: #90a4ae; margin-top: 2px; }
-.main { padding: 28px 32px; }
-.section { margin-bottom: 24px; }
-.section-title { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #0f3460; border-bottom: 2px solid #0f3460; padding-bottom: 6px; margin-bottom: 13px; }
-.summary { font-size: 12.5px; color: #37474f; line-height: 1.7; border-left: 3px solid #64b5f6; padding-left: 14px; }
-.project-card { background: #f0f4ff; border: 1px solid #c5d5f5; border-left: 4px solid #0f3460; border-radius: 0 6px 6px 0; padding: 13px 15px; }
-.project-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
-.project-title { font-size: 13px; font-weight: 700; color: #0f3460; }
-.project-company { font-size: 11px; color: #546e7a; font-style: italic; }
-.project-link { font-size: 10px; color: #1565c0; text-decoration: none; text-align: right; }
-.tech-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 7px 0; }
-.tech-tag { background: #0f3460; color: white; font-size: 9.5px; font-weight: 600; padding: 2px 7px; border-radius: 10px; }
-ul.bullets { list-style: none; margin-top: 6px; }
-ul.bullets li { font-size: 12px; color: #37474f; padding: 2px 0 2px 14px; position: relative; line-height: 1.5; }
-ul.bullets li::before { content: "\25B8"; position: absolute; left: 0; color: #0f3460; font-size: 10px; top: 3px; }
-.job { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #eef0f3; }
-.job:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.job-header { display: flex; justify-content: space-between; }
-.job-title { font-size: 13px; font-weight: 700; color: #1a1a2e; }
-.job-dates { font-size: 11px; color: #78909c; white-space: nowrap; margin-left: 10px; margin-top: 2px; }
-.job-company { font-size: 11.5px; color: #0f3460; font-weight: 600; margin-bottom: 5px; margin-top: 1px; }
-.job-company span { font-weight: 400; color: #78909c; }
-ul.jb { list-style: none; }
-ul.jb li { font-size: 12px; color: #37474f; padding: 2px 0 2px 14px; position: relative; line-height: 1.5; }
-ul.jb li::before { content: "\25B8"; position: absolute; left: 0; color: #64b5f6; font-size: 10px; top: 3px; }
-@media print { body{background:white} .page{margin:0;box-shadow:none;max-width:100%} .header,.sidebar,.project-card,.tech-tag,.tag,.badge{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
-</style>
+    <title>Brian Lasky</title>
 </head>
 <body>
-<div class="page">
-<div class="header">
-<h1>Brian M. Lasky</h1>
-<div class="tagline">Cloud Engineer &nbsp;|&nbsp; DevOps &nbsp;|&nbsp; Infrastructure as Code</div>
-<div class="divider"></div>
-<div class="contact-grid">
-<div class="contact-item">&#9990; 860-861-4962</div>
-<div class="contact-item">&#9993; <a href="mailto:brian.lasky@outlook.com">brian.lasky@outlook.com</a></div>
-<div class="contact-item">&#127758; Maple Hill, KS</div>
-<div class="contact-item">&#128101; <a href="https://linkedin.com/in/brian-lasky-67464086">linkedin.com/in/brian-lasky-67464086</a></div>
-<div class="contact-item">&#128187; <a href="https://github.com/brianmlasky-dev">github.com/brianmlasky-dev</a></div>
-</div>
-</div>
-<div class="body">
-<div class="sidebar">
-<div class="sidebar-section">
-<div class="sidebar-title">Certifications</div>
-<div class="cert-item"><div class="cert-name">Professional Cloud Architect</div><div class="cert-issuer">Google Cloud</div><div class="cert-year">2026</div><span class="badge gold">GCP Certified</span></div>
-<div class="cert-item"><div class="cert-name">AWS Solutions Architect Professional Certificate</div><div class="cert-issuer">Amazon Web Services / Coursera</div><div class="cert-year">2026</div><span class="badge blue">4-Course Series</span></div>
-<div class="cert-item"><div class="cert-name">AWS Cloud Practitioner Essentials</div><div class="cert-issuer">Amazon Web Services / Coursera</div><div class="cert-year">2026</div></div>
-<div class="cert-item"><div class="cert-name">Terraform for Google Cloud</div><div class="cert-issuer">Google Cloud / Coursera</div><div class="cert-year">2026</div></div>
-<div class="cert-item"><div class="cert-name">Cloud Pub/Sub: Python</div><div class="cert-issuer">Google Cloud / Coursera</div><div class="cert-year">2026</div></div>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">Cloud Platforms</div>
-<div class="skill-group"><div class="skill-label">AWS</div><div class="skill-tags">
-<span class="tag dk">VPC</span><span class="tag dk">ECS Fargate</span><span class="tag dk">RDS</span><span class="tag dk">S3</span><span class="tag dk">Route 53</span><span class="tag dk">CloudWatch</span><span class="tag dk">CloudTrail</span><span class="tag dk">GuardDuty</span><span class="tag dk">IAM</span>
-</div></div>
-<div class="skill-group"><div class="skill-label">GCP</div><div class="skill-tags">
-<span class="tag lt">Cloud Run</span><span class="tag lt">Cloud SQL</span><span class="tag lt">GCS</span><span class="tag lt">Pub/Sub</span><span class="tag lt">Cloud Armor</span><span class="tag lt">Monitoring</span><span class="tag lt">IAM</span>
-</div></div>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">DevOps &amp; IaC</div>
-<div class="skill-tags"><span class="tag dk">Terraform</span><span class="tag dk">Kubernetes</span><span class="tag dk">Docker</span><span class="tag dk">GitHub Actions</span><span class="tag dk">EKS</span><span class="tag dk">GKE</span><span class="tag dk">CI/CD</span></div>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">Security &amp; Compliance</div>
-<div class="skill-tags"><span class="tag lt">Trivy</span><span class="tag lt">TFSec</span><span class="tag lt">Checkov</span><span class="tag lt">PCI-DSS</span><span class="tag lt">SOC 2</span><span class="tag lt">IAM</span></div>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">Programming</div>
-<div class="skill-tags"><span class="tag dk">Python</span><span class="tag dk">Bash</span><span class="tag dk">HCL</span><span class="tag dk">YAML</span><span class="tag dk">JSON</span></div>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">Tools</div>
-<div class="skill-tags"><span class="tag lt">Git</span><span class="tag lt">GitHub</span><span class="tag lt">Linux</span><span class="tag lt">VS Code</span><span class="tag lt">Flask</span></div>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">Education</div>
-<div class="edu-degree">BS, Theology</div>
-<div class="edu-school">Franciscan University of Steubenville</div>
-<div class="edu-year">2007</div>
-</div>
-</div>
-<div class="main">
-<div class="section">
-<div class="section-title">Professional Summary</div>
-<div class="summary">Career-changer with hands-on cloud engineering experience and the <strong>Google Professional Cloud Architect</strong> certification &mdash; a senior-level credential earned through independent study. Built a production-grade multi-cloud disaster recovery platform from scratch using Terraform, Kubernetes, Docker, and GitHub Actions. Brings 10+ years of technical operations, safety compliance, and quality assurance experience in high-stakes energy and manufacturing environments. Seeking an entry-level Cloud or DevOps Engineer role with a long-term path toward Cloud Solutions Architect.</div>
-</div>
-<div class="section">
-<div class="section-title">Featured Project</div>
-<div class="project-card">
-<div class="project-header">
-<div><div class="project-title">Multi-Cloud Disaster Recovery Platform</div><div class="project-company">Crestline Financial &mdash; Payment Processing Platform (Demo)</div></div>
-<a class="project-link" href="https://github.com/brianmlasky-dev/multi-cloud-dr-platform" target="_blank">github.com/brianmlasky-dev/<br>multi-cloud-dr-platform</a>
-</div>
-<div class="tech-tags"><span class="tech-tag">AWS</span><span class="tech-tag">GCP</span><span class="tech-tag">Terraform</span><span class="tech-tag">Kubernetes</span><span class="tech-tag">Docker</span><span class="tech-tag">Python</span><span class="tech-tag">GitHub Actions</span><span class="tech-tag">PCI-DSS</span><span class="tech-tag">SOC 2</span></div>
-<ul class="bullets">
-<li>Designed enterprise-grade DR platform across AWS (primary) and GCP (standby) achieving 5&ndash;15 min RTO and 15&ndash;60 min RPO &mdash; exceeding PCI-DSS requirements</li>
-<li>Automated all cloud infrastructure using Terraform IaC across VPC, ECS Fargate, RDS PostgreSQL Multi-AZ, Cloud Run, Cloud SQL, and Route 53 failover routing</li>
-<li>Built 3 GitHub Actions CI/CD pipelines for Terraform validation, security scanning (Trivy, TFSec, Checkov), and automated application testing on every commit</li>
-<li>Implemented PCI-DSS and SOC 2 controls including AES-256 encryption, IAM least-privilege, CloudTrail audit logging, and GuardDuty threat detection</li>
-<li>Deployed Kubernetes workloads on EKS and GKE with horizontal pod autoscaling and liveness probes for zero-downtime failover</li>
-<li>Containerized Flask REST API simulating real DR operations with live /health, /status, /failover, and /metrics endpoints</li>
-</ul>
-</div>
-</div>
-<div class="section">
-<div class="section-title">Professional Experience</div>
-<div class="job">
-<div class="job-header"><div class="job-title">Quality Assurance Technician</div><div class="job-dates">Jan 2020 &ndash; Present</div></div>
-<div class="job-company">The Onyx Collection <span>&mdash; Belvue, KS</span></div>
-<ul class="jb"><li>Identified defects and quality issues using visual and physical assessment tools including mold scanning equipment</li><li>Trained staff on quality standards, policies, and best practices and oversaw compliance with established procedures</li><li>Coordinated with management to escalate and resolve production issues impacting product quality</li><li>Assessed employee performance and workmanship against established quality benchmarks</li></ul>
-</div>
-<div class="job">
-<div class="job-header"><div class="job-title">Equipment Operator</div><div class="job-dates">May 2019 &ndash; Jan 2020</div></div>
-<div class="job-company">Patriot Well Solutions <span>&mdash; Casper, WY</span></div>
-<ul class="jb"><li>Troubleshot wireline applications and systems in high-pressure oilfield environments</li><li>Interpreted technical documents and wrote detailed reports documenting equipment performance</li><li>Provided technical guidance to personnel and coordinated safety hazard reporting</li></ul>
-</div>
-<div class="job">
-<div class="job-header"><div class="job-title">Equipment Operator</div><div class="job-dates">Sep 2018 &ndash; May 2019</div></div>
-<div class="job-company">Advanced Stimulation Technologies <span>&mdash; Midland, TX</span></div>
-<ul class="jb"><li>Monitored oilfield processes for compliance with industry and company safety standards</li><li>Implemented security measures for oilfield systems and evaluated new technologies for adoption</li><li>Established work standards and recommended operational improvements to management</li></ul>
-</div>
-<div class="job">
-<div class="job-header"><div class="job-title">Wireline Operator</div><div class="job-dates">2015 &amp; 2017</div></div>
-<div class="job-company">Oil Well Perforators <span>&mdash; Casper, WY</span></div>
-<ul class="jb"><li>Supervised and trained new personnel in technical and scientific oilfield procedures</li><li>Developed operating strategies and procedures and installed and commissioned new equipment</li><li>Analyzed security of wireline systems and evaluated utility of new technologies</li></ul>
-</div>
-<div class="job">
-<div class="job-header"><div class="job-title">Downhole Motor Technician I</div><div class="job-dates">Oct 2014 &ndash; Apr 2015</div></div>
-<div class="job-company">Halliburton Sperry Drilling <span>&mdash; Evansville, WY</span></div>
-<ul class="jb"><li>Assembled and disassembled downhole tools in compliance with Halliburton standard procedures and regulatory requirements</li><li>Documented and communicated mechanical health of equipment to management and assisted in diagnosing performance issues</li></ul>
-</div>
-<div class="job">
-<div class="job-header"><div class="job-title">Field Supervisor</div><div class="job-dates">Jul 2007 &ndash; Aug 2014</div></div>
-<div class="job-company">MST / Atlantic Express <span>&mdash; Los Angeles, CA</span></div>
-<ul class="jb"><li>Supervised field operations ensuring compliance with 2 state and 4 company DOT regulatory handbooks</li><li>Managed resolution of 125+ vehicle accidents including customer relations and incident reporting</li><li>Trained and mentored team on safety procedures, defensive driving, and regulatory compliance</li></ul>
-</div>
-</div>
-</div>
-</div>
-</div>
+    <h1>Brian Lasky</h1>
+    <h2>Professional Experience</h2>
+    <h3>The Onyx Collection - Quality Assurance Technician (Jan 2020 - Present, Belvue KS)</h3>
+    <ul>
+        <li>Monitored production systems for defects and anomalies using structured inspection protocols, escalating issues through defined escalation paths — directly analogous to cloud observability and incident response workflows</li>
+        <li>Enforced quality standards and compliance procedures across a team, ensuring consistent adherence to documented processes — mirrors SRE reliability and compliance enforcement</li>
+        <li>Coordinated cross-functional defect resolution between floor staff and management, reducing recurring production issues — mirrors cloud incident triage and root cause analysis</li>
+        <li>Evaluated employee workmanship against measurable benchmarks and drove continuous improvement initiatives</li>
+    </ul>
+    <h3>Patriot Well Solutions - Equipment Operator (May 2019 - Jan 2020, Casper WY)</h3>
+    <ul>
+        <li>Monitored wireline equipment and downhole telemetry in high-pressure oilfield environments, identifying anomalies and responding to system faults in real time — mirrors cloud infrastructure monitoring and on-call incident response</li>
+        <li>Authored detailed technical reports documenting equipment performance, failure modes, and corrective actions — mirrors runbook and postmortem documentation in DevOps environments</li>
+        <li>Provided technical guidance to field personnel on system operation and safety procedures — mirrors knowledge sharing and internal documentation in engineering teams</li>
+        <li>Coordinated safety hazard identification and reporting in compliance with regulatory standards</li>
+    </ul>
+    <h3>Advanced Stimulation Technologies - Equipment Operator (Sep 2018 - May 2019, Midland TX)</h3>
+    <ul>
+        <li>Operated and monitored cementing and hydraulic fracturing systems requiring precise real-time coordination across multiple simultaneous processes under strict safety and regulatory constraints — mirrors orchestration of complex cloud deployment pipelines and change management procedures</li>
+        <li>Enforced compliance with industry safety standards and company operating procedures in high-stakes, time-critical field environments — mirrors cloud security compliance, change control, and risk mitigation</li>
+        <li>Evaluated emerging oilfield technologies for operational adoption and implemented system security measures — mirrors cloud technology evaluation and security hardening</li>
+        <li>Established standardized work procedures and recommended process improvements to operations management</li>
+    </ul>
+    <h3>Oil Well Perforators - Wireline Operator (2015 and 2017, Casper WY)</h3>
+    <ul>
+        <li>Supervised and trained new personnel on technical wireline procedures, equipment operation, and safety protocols — mirrors engineering onboarding, runbook authoring, and knowledge transfer in DevOps teams</li>
+        <li>Developed and documented standard operating procedures for wireline operations and commissioned new downhole equipment — mirrors infrastructure-as-code documentation and systems deployment</li>
+        <li>Analyzed operational security of wireline systems and evaluated new technologies for adoption into field operations</li>
+    </ul>
+    <h3>Halliburton Sperry Drilling - Downhole Motor Technician I (Oct 2014 - Apr 2015, Evansville WY)</h3>
+    <ul>
+        <li>Assembled and disassembled downhole drilling tools to precise manufacturer specifications and regulatory standards, maintaining zero-defect quality requirements — mirrors configuration management and compliance-driven infrastructure provisioning</li>
+        <li>Documented mechanical health assessments and communicated equipment status to engineering management, supporting data-driven maintenance decisions — mirrors audit logging, monitoring dashboards, and infrastructure health reporting</li>
+    </ul>
+    <h3>MST / Atlantic Express - Field Supervisor (Jul 2007 - Aug 2014, Los Angeles CA)</h3>
+    <ul>
+        <li>Supervised field operations for a large transportation fleet ensuring full compliance with 2 state and 4 company DOT regulatory frameworks — mirrors cloud governance, policy enforcement, and multi-framework compliance management</li>
+        <li>Led end-to-end incident response for 125+ vehicle accidents including investigation, documentation, stakeholder communication, and resolution — mirrors cloud incident management, postmortems, and SLA accountability</li>
+        <li>Trained and mentored teams on safety procedures, regulatory compliance, and operational standards — mirrors DevOps culture building, documentation, and team enablement</li>
+    </ul>
 </body>
 </html>

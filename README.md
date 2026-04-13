@@ -100,7 +100,7 @@ Crestline Financial's legacy single-cloud AWS deployment had three critical vuln
     python3 -m venv venv
     source venv/bin/activate
     pip install -r requirements.txt
-    python3 app.py
+    gunicorn --bind 0.0.0.0:8080 --workers 2 --timeout 60 app:app
 
 ### API Endpoints
 
@@ -121,8 +121,20 @@ Crestline Financial's legacy single-cloud AWS deployment had three critical vuln
 - On failover GCP scales up automatically to handle full traffic
 
 ### RTO/RPO Achievement
-- RTO Target: 5-15 minutes (PCI-DSS requires < 4 hours)
-- RPO Target: 15-60 minutes (PCI-DSS requires < 24 hours)
+- RTO Target: 5-15 minutes (PCI-DSS requires < 4 hours) — achieved via `scripts/failover.sh` automated failover
+- RPO Target: 15-60 minutes (PCI-DSS requires < 24 hours) — enforced by `scripts/sync-db.sh` scheduled every 15 minutes via GitHub Actions (`sync-db.yml`)
+
+### DR Operations
+
+    # Check current DB sync lag and health
+    ./scripts/sync-db.sh --status
+
+    # Automated failover: AWS → GCP (with dry-run support)
+    ./scripts/failover.sh --dry-run
+    ./scripts/failover.sh --direction aws-to-gcp
+
+    # Failback: GCP → AWS
+    ./scripts/failover.sh --direction gcp-to-aws
 
 ---
 
@@ -134,7 +146,7 @@ Crestline Financial's legacy single-cloud AWS deployment had three critical vuln
 | Encryption at rest | AES-256 on all storage and databases |
 | Audit logging | CloudTrail (AWS) + Cloud Audit Logs (GCP) |
 | Threat detection | AWS GuardDuty enabled |
-| WAF / DDoS protection | GCP Cloud Armor policies |
+| WAF / DDoS protection | AWS WAF v2 (ALB) + GCP Cloud Armor |
 | IaC security scanning | TFSec + Checkov on every commit |
 | Vulnerability scanning | Trivy on every commit |
 | Non-root containers | Dockerfile uses unprivileged user |

@@ -1,0 +1,75 @@
+name: DB Sync — AWS RDS to GCP Cloud SQL
+
+# Runs every 15 minutes to keep GCP standby within the 15-60 min RPO window.
+# Can also be triggered manually for on-demand syncs or status checks.
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      command:
+        description: 'Sync command to run'
+        required: false
+        default: 'aws-to-gcp'
+        type: choice
+        options:
+          - aws-to-gcp
+          - gcp-to-aws
+          - --status
+
+jobs:
+  sync-db:
+    name: Sync DB (${{ github.event.inputs.command || 'aws-to-gcp' }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Install PostgreSQL client tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client
+
+      - name: Install Cloud SQL Auth Proxy
+        run: |
+          curl -Lo cloud-sql-proxy \
+            https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.14.3/cloud-sql-proxy.linux.amd64
+          chmod +x cloud-sql-proxy
+          sudo mv cloud-sql-proxy /usr/local/bin/cloud-sql-proxy
+
+      - name: Run DB sync
+        env:
+          RDS_HOST:             ${{ secrets.RDS_HOST }}
+          RDS_USER:             ${{ secrets.RDS_USER }}
+          RDS_PASSWORD:         ${{ secrets.RDS_PASSWORD }}
+          RDS_DB_NAME:          crestline_db
+          CLOUD_SQL_USER:       ${{ secrets.CLOUD_SQL_USER }}
+          CLOUD_SQL_PASSWORD:   ${{ secrets.CLOUD_SQL_PASSWORD }}
+          CLOUD_SQL_DB_NAME:    crestline_db
+          CLOUD_SQL_INSTANCE_NAME: multi-cloud-dr-postgres
+          S3_BUCKET:            multi-cloud-dr-app-storage
+          GCS_BUCKET:           multi-cloud-dr-dr-storage
+          GCP_PROJECT_ID:       multi-cloud-dr-platform
+          GCP_REGION:           us-central1
+          AWS_REGION:           us-east-1
+        run: |
+          COMMAND="${{ github.event.inputs.command || 'aws-to-gcp' }}"
+          bash scripts/sync-db.sh "$COMMAND"

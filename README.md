@@ -19,7 +19,6 @@ Production-style portfolio project demonstrating a compliance-aware disaster rec
 * [High-Level Design](#high-level-design)
 * [What This Project Demonstrates](#what-this-project-demonstrates)
 * [Architecture Diagram](#architecture-diagram)
-* [Screenshots](#screenshots)
 * [Repository Structure](#repository-structure)
 * [Tooling](#tooling)
 * [Example Workflow](#example-workflow)
@@ -139,20 +138,6 @@ The fictional use case is intentionally framed around a regulated environment so
 ![Architecture Diagram](./docs/architecture-diagram.png)
 
 A high-level view of the AWS primary environment, GCP standby environment, failover flow, and supporting CI/CD and recovery components.
-
-## Screenshots
-
-### Application UI
-
-*Add `./docs/app-ui.png` after you capture and upload the screenshot.*
-
-### CI/CD Pipeline
-
-*Add `./docs/github-actions-success.png` after you capture and upload the screenshot.*
-
-### Monitoring Dashboard
-
-*Optional: add `./docs/monitoring-dashboard.png` later if you create or capture a dashboard view.*
 
 ## Repository Structure
 

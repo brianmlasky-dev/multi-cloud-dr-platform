@@ -1,4 +1,6 @@
-# 🚨 Disaster Recovery Runbook
+content = open("scripts/write-runbook.py").read()
+
+runbook = """# 🚨 Disaster Recovery Runbook
 **Project:** Multi-Cloud DR Platform  
 **Author:** Brian M. Lasky  
 **Organization:** Northstar Commerce  
@@ -81,21 +83,21 @@ and can be activated within the RTO window.
 
 ### Step 2: Promote GCP Cloud SQL to Primary
 
-    gcloud sql instances patch northstar-dr-postgres \
-      --activation-policy=ALWAYS \
+    gcloud sql instances patch northstar-dr-postgres \\
+      --activation-policy=ALWAYS \\
       --project=northstar-dr-platform
 
 ### Step 3: Scale Up Cloud Run
 
-    gcloud run services update northstar-dr-app \
-      --min-instances=2 \
-      --max-instances=10 \
+    gcloud run services update northstar-dr-app \\
+      --min-instances=2 \\
+      --max-instances=10 \\
       --region=us-central1
 
 ### Step 4: Update Route 53 DNS Failover
 
-    aws route53 change-resource-record-sets \
-      --hosted-zone-id YOUR_ZONE_ID \
+    aws route53 change-resource-record-sets \\
+      --hosted-zone-id YOUR_ZONE_ID \\
       --change-batch file://failover-dns.json
 
 ### Step 5: Verify Failover
@@ -109,9 +111,9 @@ and can be activated within the RTO window.
 
 ### Step 1: Verify AWS Environment Health
 
-    aws ecs describe-services \
-      --cluster northstar-dr-cluster \
-      --services northstar-dr-service \
+    aws ecs describe-services \\
+      --cluster northstar-dr-cluster \\
+      --services northstar-dr-service \\
       --region us-east-1
 
 ### Step 2: Sync Data Back to AWS RDS
@@ -120,15 +122,15 @@ and can be activated within the RTO window.
 
 ### Step 3: Restore Route 53 to Primary
 
-    aws route53 change-resource-record-sets \
-      --hosted-zone-id YOUR_ZONE_ID \
+    aws route53 change-resource-record-sets \\
+      --hosted-zone-id YOUR_ZONE_ID \\
       --change-batch file://failback-dns.json
 
 ### Step 4: Scale Down GCP Standby
 
-    gcloud run services update northstar-dr-app \
-      --min-instances=0 \
-      --max-instances=5 \
+    gcloud run services update northstar-dr-app \\
+      --min-instances=0 \\
+      --max-instances=5 \\
       --region=us-central1
 
 ### Step 5: Verify Failback
@@ -181,3 +183,9 @@ Run this before any failover to confirm data freshness:
 
 *This runbook should be reviewed and tested quarterly.*  
 *Last DR drill: April 2026*
+"""
+
+with open("docs/disaster-recovery-runbook.md", "w") as f:
+    f.write(runbook)
+
+print("Runbook written successfully!")

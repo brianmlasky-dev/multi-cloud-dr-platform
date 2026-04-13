@@ -30,6 +30,14 @@ Production-style portfolio project demonstrating a compliance-aware disaster rec
 * [About Me](#about-me)
 * [Contact](#contact)
 
+## Key Files
+
+* [`docs/architecture-diagram.png`](./docs/architecture-diagram.png) — high-level architecture diagram
+* [`docs/disaster-recovery-runbook.md`](./docs/disaster-recovery-runbook.md) — disaster recovery procedure and operational steps
+* [`infrastructure/`](./infrastructure/) — infrastructure as code, environment definitions, and cloud resources
+* [`.github/workflows/`](./.github/workflows/) — CI/CD automation and validation workflows
+* [`app/`](./app/) — demo application source code
+
 ## Recruiter Quick Scan
 
 **Role alignment:** Cloud / DevOps Engineer, Cloud Infrastructure Engineer, SRE-adjacent roles
@@ -153,9 +161,7 @@ A high-level view of the AWS primary environment, GCP standby environment, failo
 ├── infrastructure/
 ├── scripts/
 ├── .gitignore
-├── README.md
-├── resume_brian_lasky.html
-└── resume_brian_lasky_1page.html
+└── README.md
 ```
 
 This structure reflects the current repository layout shown on GitHub. You can expand it later if you want to document important subfolders inside `infrastructure/` or `docs/`.

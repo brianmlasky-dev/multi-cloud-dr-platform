@@ -1,0 +1,4 @@
+# Test-only dependencies — not installed in the Docker image.
+# Install with: pip install -r requirements-dev.txt
+-r requirements.in
+pytest==8.3.5

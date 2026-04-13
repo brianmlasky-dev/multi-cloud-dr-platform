@@ -44,6 +44,8 @@ resource "aws_ecs_task_definition" "app" {
       protocol      = "tcp"
     }]
     environment = [
+      { name = "CLOUD_PROVIDER", value = "aws" },
+      { name = "ENVIRONMENT", value = var.environment },
       { name = "DB_HOST", value = aws_db_instance.main.address },
       { name = "DB_NAME", value = var.db_name }
     ]

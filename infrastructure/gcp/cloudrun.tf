@@ -28,6 +28,11 @@ resource "google_cloud_run_v2_service" "app" {
       }
 
       env {
+        name  = "CLOUD_PROVIDER"
+        value = "gcp"
+      }
+
+      env {
         name  = "DB_HOST"
         value = google_sql_database_instance.main.private_ip_address
       }

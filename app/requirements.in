@@ -1,4 +1,4 @@
 # Direct dependencies — edit this file, then run:
 #   pip-compile --generate-hashes requirements.in -o requirements.txt
-flask==3.0.0
-gunicorn==21.2.0
+flask==3.1.1
+gunicorn==25.3.0

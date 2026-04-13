@@ -6,9 +6,9 @@ import random
 app = Flask(__name__)
 
 # ─────────────────────────────────────────
-# Multi-Cloud DR Platform - Demo App
+# Crestline Financial Payment Platform - Demo App
 # Author: Brian M. Lasky
-# Organization: Northstar Commerce
+# Organization: Crestline Financial
 # ─────────────────────────────────────────
 
 CLOUD_PROVIDER = os.environ.get("CLOUD_PROVIDER", "aws")
@@ -47,8 +47,8 @@ def health():
 @app.route("/status")
 def status():
     return jsonify({
-        "platform": "Multi-Cloud DR Platform",
-        "organization": "Northstar Commerce",
+        "platform": "Crestline Financial Payment Platform",
+        "organization": "Crestline Financial",
         "author": "Brian M. Lasky",
         "active_cloud": CLOUD_PROVIDER.upper(),
         "region": "us-east-1" if CLOUD_PROVIDER == "aws" else "us-central1",

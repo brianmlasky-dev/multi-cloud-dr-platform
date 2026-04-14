@@ -8,6 +8,10 @@
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?logo=githubactions\&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Portfolio%20Project-success)
 
+## 🎥 Demo Video
+
+👉 [Watch the 60-second demo]((https://www.loom.com/share/68cab57f64c5421f89fa36a75f00653f))
+
 Production-style portfolio project demonstrating a compliance-aware disaster recovery architecture across **AWS** and **Google Cloud** using **Terraform**, **Kubernetes**, **Docker**, and **GitHub Actions**.
 
 ## Table of Contents

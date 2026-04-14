@@ -10,9 +10,27 @@
 
 ## 🎥 Demo Video
 
-👉 [Watch the 60-second demo]((https://www.loom.com/share/68cab57f64c5421f89fa36a75f00653f))
+👉 [Watch the 60-second demo](https://www.loom.com/share/68cab57f64c5421f89fa36a75f00653f)
+## Quick Start
+```markdown
+## 1-Minute Explanation
 
-Production-style portfolio project demonstrating a compliance-aware disaster recovery architecture across **AWS** and **Google Cloud** using **Terraform**, **Kubernetes**, **Docker**, and **GitHub Actions**.
+This project simulates a multi-cloud disaster recovery setup where AWS acts as the primary environment and GCP as the standby.
+
+The demo application exposes health, status, metrics, and failover endpoints to represent how a production system behaves during normal operation and recovery.
+
+The repository also includes Terraform, CI/CD, and a disaster recovery runbook to demonstrate how this would be implemented in a real environment.
+
+This project highlights my ability to design for reliability, recovery, and real-world cloud architecture scenarios.
+
+Run the demo app locally:
+
+```bash
+cd app
+pip install -r requirements.txt
+python app.py
+
+Portfolio project demonstrating a multi-cloud disaster recovery architecture across AWS and Google Cloud, supported by a working demo application and supporting infrastructure design.
 
 ## Table of Contents
 
@@ -28,7 +46,7 @@ Production-style portfolio project demonstrating a compliance-aware disaster rec
 * [Example Workflow](#example-workflow)
 * [Tradeoffs and Design Decisions](#tradeoffs-and-design-decisions)
 * [What I Would Improve Next](#what-i-would-improve-next)
-* [How to Use This Repo](#how-to-use-this-repo)
+* [## Advanced Usage (Infrastructure & Terraform)](#how-to-use-this-repo)
 * [Resume-Aligned Highlights](#resume-aligned-highlights)
 * [Why This Project Matters](#why-this-project-matters)
 * [About Me](#about-me)

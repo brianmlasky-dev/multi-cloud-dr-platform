@@ -8,50 +8,62 @@ on:
 
 jobs:
   validate-aws:
-    name: Validate AWS Terraform
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-
-      - name: Terraform Init (AWS)
+      - name: Init AWS
         working-directory: ./infrastructure/aws
-        run: terraform init
-
-      - name: Terraform Format Check (AWS)
+        run: terraform init -backend=false
+      - name: Format AWS
         working-directory: ./infrastructure/aws
         run: terraform fmt -check -recursive
-
-      - name: Terraform Validate (AWS)
+      - name: Validate AWS
         working-directory: ./infrastructure/aws
         run: terraform validate
 
   validate-gcp:
-    name: Validate GCP Terraform
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-
-      - name: Terraform Init (GCP)
+      - name: Init GCP
         working-directory: ./infrastructure/gcp
-        run: terraform init
-
-      - name: Terraform Format Check (GCP)
+        run: terraform init -backend=false
+      - name: Format GCP
         working-directory: ./infrastructure/gcp
         run: terraform fmt -check -recursive
-
-      - name: Terraform Validate (GCP)
+      - name: Validate GCP
         working-directory: ./infrastructure/gcp
         run: terraform validate
 
-  notify:
-    name: Notify Status
+  security-scan:
     runs-on: ubuntu-latest
     needs: [validate-aws, validate-gcp]
-    if: always()
-
+    continue-on-error: true
     steps:
-      - run: echo "Terraform workflow completed"
+      - uses: actions/checkout@v4
+      - name: Checkov
+        run: |
+          pip install checkov
+          checkov -d .
+      - name: TFSec
+        run: |
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+          tfsec .
+      - name: Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+          trivy config .
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: [validate-aws, validate-gcp, security-scan]
+    if: always()
+    steps:
+      - run: echo "Pipeline completed"

@@ -1,7 +1,7 @@
 resource "aws_security_group" "ecs" {
   name        = "ecs-sg"
   description = "Allow traffic only from ALB"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     description     = "Allow HTTP from ALB only"

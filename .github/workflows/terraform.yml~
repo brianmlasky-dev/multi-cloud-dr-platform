@@ -1,0 +1,57 @@
+name: Terraform Validate & Plan
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate-aws:
+    name: Validate AWS Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init (AWS)
+        working-directory: ./infrastructure/aws
+        run: terraform init
+
+      - name: Terraform Format Check
+        working-directory: ./infrastructure/aws
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        working-directory: ./infrastructure/aws
+        run: terraform validate
+
+  validate-gcp:
+    name: Validate GCP Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init (GCP)
+        working-directory: ./infrastructure/gcp
+        run: terraform init
+
+      - name: Terraform Format Check
+        working-directory: ./infrastructure/gcp
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        working-directory: ./infrastructure/gcp
+        run: terraform validate
+
+  notify:
+    name: Notify Status
+    runs-on: ubuntu-latest
+    needs: [validate-aws, validate-gcp]
+    if: always()
+
+    steps:
+      - run: echo "Terraform workflow completed"

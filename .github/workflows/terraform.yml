@@ -1,6 +1,4 @@
-name: Terraform Validate & Plan
-
-on:
+n:
   push:
     branches: [ "main" ]
   pull_request:
@@ -61,4 +59,4 @@ jobs:
 
     steps:
       - name: Status Output
-        run: echo "Terraform workflow completed"
+        run: echo "Terraform workflow completed

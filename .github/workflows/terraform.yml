@@ -1,4 +1,6 @@
-n:
+name: Terraform Validate & Plan
+
+on:
   push:
     branches: [ "main" ]
   pull_request:
@@ -10,22 +12,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init (AWS)
-        working-directory: ./terraform/aws
+        working-directory: ./infrastructure/aws
         run: terraform init
 
-      - name: Terraform Format Check
-        working-directory: ./terraform/aws
+      - name: Terraform Format Check (AWS)
+        working-directory: ./infrastructure/aws
         run: terraform fmt -check -recursive
 
-      - name: Terraform Validate
-        working-directory: ./terraform/aws
+      - name: Terraform Validate (AWS)
+        working-directory: ./infrastructure/aws
         run: terraform validate
 
   validate-gcp:
@@ -33,22 +32,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init (GCP)
-        working-directory: ./terraform/gcp
+        working-directory: ./infrastructure/gcp
         run: terraform init
 
-      - name: Terraform Format Check
-        working-directory: ./terraform/gcp
+      - name: Terraform Format Check (GCP)
+        working-directory: ./infrastructure/gcp
         run: terraform fmt -check -recursive
 
-      - name: Terraform Validate
-        working-directory: ./terraform/gcp
+      - name: Terraform Validate (GCP)
+        working-directory: ./infrastructure/gcp
         run: terraform validate
 
   notify:
@@ -58,5 +54,4 @@ jobs:
     if: always()
 
     steps:
-      - name: Status Output
-        run: echo "Terraform workflow completed
+      - run: echo "Terraform workflow completed"

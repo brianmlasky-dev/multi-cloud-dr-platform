@@ -1,0 +1,6 @@
+{
+  "name": "Terraform Dev Environment",
+  "features": {
+    "ghcr.io/devcontainers/features/terraform:1": {}
+  }
+}

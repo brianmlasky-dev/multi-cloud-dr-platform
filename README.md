@@ -50,17 +50,17 @@ It focuses on:
 
 ### 🧠 Problem
 
-Initial failover time was approximately **2–3 minutes**, which is unacceptable for user-facing production systems.
+Initial failover time was approximately **2–3 minutes**, which is not acceptable for user-facing systems.
 
 ---
 
 ### 🔍 Root Cause Analysis
 
-Failover delay was caused by a combination of:
+Failover delay was caused by:
 
-- **DNS TTL caching** delaying traffic redirection  
-- **Health check detection latency (~90 seconds)**  
-- **Cold standby environment startup time**  
+- DNS TTL caching delaying traffic redirection  
+- Health check detection latency (~90 seconds)  
+- Cold standby startup time  
 
 ---
 

@@ -50,7 +50,7 @@ It focuses on:
 
 ### 🧠 Problem
 
-Initial failover time was approximately **2–3 minutes**, which is not acceptable for user-facing systems.
+Initial failover time was approximately **2–3 minutes**, which is suboptimal for user-facing systems.
 
 ---
 

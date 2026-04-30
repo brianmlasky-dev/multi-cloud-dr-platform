@@ -1,69 +1,134 @@
 # Multi-Cloud Disaster Recovery Platform
+![AWS](https://img.shields.io/badge/AWS-Cloud-orange)
+![GCP](https://img.shields.io/badge/GCP-Cloud-blue)
+![Terraform](https://img.shields.io/badge/Terraform-IaC-purple)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Orchestration-blue)
+![Status](https://img.shields.io/badge/Status-Portfolio_Project-green)
 
-![AWS](https://img.shields.io/badge/AWS-Primary%20Cloud-232F3E?logo=amazonaws&logoColor=white)
-![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Standby%20Cloud-4285F4?logo=googlecloud&logoColor=white)
-![Terraform](https://img.shields.io/badge/Terraform-IaC-7B42BC?logo=terraform&logoColor=white)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-Orchestration-326CE5?logo=kubernetes&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-Containers-2496ED?logo=docker&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI/CD-2088FF?logo=githubactions&logoColor=white)
+Production-style multi-cloud disaster recovery system designed for high availability, fault tolerance, and rapid failover across AWS and Google Cloud.
 
-**Production-grade multi-cloud disaster recovery platform designed for automated failover, infrastructure consistency, and reliability engineering aligned to strict RTO/RPO objectives.**
+## 🚀 Overview
 
----
+This project simulates a compliance-sensitive payment platform requiring strict uptime and recovery guarantees. It demonstrates how to design and implement a reliable, cost-effective disaster recovery strategy using an active-passive architecture.
 
-## 🔥 Why This Project Matters
-
-This project demonstrates how to design and operate a **resilient cloud platform**, not just deploy infrastructure.
-
-It focuses on:
-- Reliability engineering (RTO/RPO-driven design)  
-- Automated failure detection and recovery  
-- Infrastructure portability across cloud providers  
-- Production-style system design tradeoffs (cost vs availability)  
+- **Primary:** AWS  
+- **Standby:** Google Cloud (GCP)  
+- **Failover Strategy:** Health-based DNS routing  
+- **Failover Time:** **< 60 seconds (optimized)**  
 
 ---
 
-## 🏗️ Architecture Overview
+## 🎯 Objectives
 
-- **Primary Cloud:** AWS  
-- **Standby Cloud:** Google Cloud Platform  
-- **Orchestration:** Kubernetes  
-- **Infrastructure Provisioning:** Terraform  
-- **CI/CD:** GitHub Actions  
-
-### Key Design Decisions
-
-- Active-passive architecture aligned to business recovery objectives  
-- Kubernetes ensures workload portability across cloud providers  
-- Terraform enables consistent, repeatable infrastructure deployments  
-- Health-check driven failover reduces downtime and manual intervention  
+- Achieve **RTO: 5–15 minutes**
+- Achieve **RPO: 15–60 minutes**
+- Minimize downtime during regional/cloud failures
+- Balance reliability, cost, and operational complexity
 
 ---
 
-## 🧭 Architecture Diagram
+## 🏗️ Architecture
 
-![Architecture Diagram](./diagram.png)
+![Architecture Diagram](docs/architecture-diagram.png)
 
----
+### Key Components
 
-## 🚀 Production Readiness Improvement: Failover Optimization
-
-### 🧠 Problem
-
-Initial failover time was approximately **2–3 minutes**, which is suboptimal for user-facing systems.
-
----
-
-### 🔍 Root Cause Analysis
-
-Failover delay was caused by:
-
-- DNS TTL caching delaying traffic redirection  
-- Health check detection latency (~90 seconds)  
-- Cold standby startup time  
+- **Terraform** → Infrastructure provisioning across AWS and GCP  
+- **Kubernetes** → Container orchestration for workload portability  
+- **Docker** → Application containerization  
+- **GitHub Actions** → CI/CD automation and validation  
+- **Health Checks + DNS Routing** → Automated failover decision-making  
 
 ---
 
-### 🏗️ Architecture Evolution
+## ⚙️ How Failover Works
 
-**Before (Baseline Design)**  
+1. AWS (primary) is continuously monitored via health checks  
+2. If thresholds are breached:
+   - High latency
+   - Increased error rate
+   - Resource exhaustion
+3. Traffic is redirected to GCP (standby)  
+4. Kubernetes workloads scale to handle traffic  
+5. System stabilizes in standby environment  
+
+---
+
+## ⚡ Optimization Highlights
+
+- Reduced DNS TTL from **300s → 30s** to minimize cached failures  
+- Tightened health check intervals (**30s → 10s**)  
+- Improved failure detection logic  
+- Reduced failover time from ~3 minutes → **sub-60 seconds**  
+
+---
+
+## 📊 Observability (In Progress)
+
+Planned improvements:
+- Centralized logging
+- Metrics aggregation
+- Alerting system
+- Automated failover validation
+
+---
+
+## 🧪 Testing & Simulation
+
+The platform includes endpoints to simulate and validate system behavior:
+
+- `/health` → Current system health  
+- `/status` → Active environment  
+- `/metrics` → Runtime metrics  
+- `/failover` → Simulated failover trigger  
+
+---
+
+## 🛠️ Tech Stack
+
+- AWS  
+- Google Cloud (GCP)  
+- Terraform  
+- Kubernetes  
+- Docker  
+- GitHub Actions  
+
+---
+
+## ⚖️ Design Trade-offs
+
+| Approach        | Pros                          | Cons                              |
+|----------------|-------------------------------|-----------------------------------|
+| Active-Passive | Lower cost, simpler design    | Slightly slower failover          |
+| Active-Active  | Faster failover               | Higher cost, operational complexity |
+
+This project intentionally uses **active-passive** to balance cost and reliability while still meeting defined RTO/RPO targets.
+
+---
+
+## 🔮 Future Improvements
+
+- Global load balancing (latency-based routing)  
+- Enhanced observability stack  
+- Automated chaos testing  
+- Security hardening and compliance checks  
+
+---
+
+## 💡 Key Takeaways
+
+- Designed for failure, not just uptime  
+- Prioritized **reliability over complexity**  
+- Focused on **real-world constraints and trade-offs**  
+- Demonstrates **SRE principles in practice**  
+
+---
+
+## 👤 Author
+
+Brian Lasky  
+Cloud / DevOps Engineer → Site Reliability Engineering (SRE)  
+
+---
+
+## 📎 Repository Structure

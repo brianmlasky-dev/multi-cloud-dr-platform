@@ -1,29 +1,35 @@
-# Multi-Cloud Disaster Recovery Platform
+# 🌐 Multi-Cloud Disaster Recovery Platform
+
 ![AWS](https://img.shields.io/badge/AWS-Cloud-orange)
 ![GCP](https://img.shields.io/badge/GCP-Cloud-blue)
 ![Terraform](https://img.shields.io/badge/Terraform-IaC-purple)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-Orchestration-blue)
 ![Status](https://img.shields.io/badge/Status-Portfolio_Project-green)
 
-Production-style multi-cloud disaster recovery system designed for high availability, fault tolerance, and rapid failover across AWS and Google Cloud.
-
-## 🚀 Overview
-
-This project simulates a compliance-sensitive payment platform requiring strict uptime and recovery guarantees. It demonstrates how to design and implement a reliable, cost-effective disaster recovery strategy using an active-passive architecture.
-
-- **Primary:** AWS  
-- **Standby:** Google Cloud (GCP)  
-- **Failover Strategy:** Health-based DNS routing  
-- **Failover Time:** **< 60 seconds (optimized)**  
+**AWS (Primary) → Google Cloud (Failover) | Terraform • Kubernetes • Docker • GitHub Actions**
 
 ---
 
-## 🎯 Objectives
+## 🚨 Overview
 
-- Achieve **RTO: 5–15 minutes**
-- Achieve **RPO: 15–60 minutes**
-- Minimize downtime during regional/cloud failures
-- Balance reliability, cost, and operational complexity
+Designed and implemented a **multi-cloud disaster recovery platform** simulating a compliance-sensitive payment system with automated failover.
+
+* ⏱️ **Failover Time:** < 60 seconds (optimized)
+* 📉 **RTO:** 5–15 minutes
+* 💾 **RPO:** 15–60 minutes
+* ⚙️ **Architecture:** Active-Passive (cost-optimized, production-aligned)
+
+---
+
+## 🧠 Why This Matters
+
+Most systems fail not because of lack of infrastructure—but because of poor failover design and slow detection.
+
+This project demonstrates:
+
+* Designing for **business continuity (RTO/RPO)**
+* Balancing **cost vs reliability vs complexity**
+* Building systems that **fail predictably and recover automatically**
 
 ---
 
@@ -33,102 +39,130 @@ This project simulates a compliance-sensitive payment platform requiring strict 
 
 ### Key Components
 
-- **Terraform** → Infrastructure provisioning across AWS and GCP  
-- **Kubernetes** → Container orchestration for workload portability  
-- **Docker** → Application containerization  
-- **GitHub Actions** → CI/CD automation and validation  
-- **Health Checks + DNS Routing** → Automated failover decision-making  
+* **Terraform** → Multi-cloud infrastructure provisioning
+* **Kubernetes** → Workload portability across clouds
+* **Docker** → Containerized application runtime
+* **GitHub Actions** → CI/CD validation and automation
+* **Health Checks + DNS Routing** → Automated failover
 
 ---
 
 ## ⚙️ How Failover Works
 
-1. AWS (primary) is continuously monitored via health checks  
-2. If thresholds are breached:
-   - High latency
-   - Increased error rate
-   - Resource exhaustion
-3. Traffic is redirected to GCP (standby)  
-4. Kubernetes workloads scale to handle traffic  
-5. System stabilizes in standby environment  
+1. AWS (primary) is continuously monitored
+2. Health thresholds trigger failure conditions:
+
+   * High latency
+   * Increased error rate
+   * Resource exhaustion
+3. DNS routing redirects traffic to GCP
+4. Kubernetes scales workloads in standby
+5. System stabilizes in the failover environment
 
 ---
 
 ## ⚡ Optimization Highlights
 
-- Reduced DNS TTL from **300s → 30s** to minimize cached failures  
-- Tightened health check intervals (**30s → 10s**)  
-- Improved failure detection logic  
-- Reduced failover time from ~3 minutes → **sub-60 seconds**  
+* Reduced DNS TTL from **300s → 30s**
+* Tightened health checks (**30s → 10s**)
+* Improved failure detection logic
+* Reduced failover time from ~3 minutes → **<60 seconds**
 
 ---
 
-## 📊 Observability (In Progress)
+## 🧪 Failure Scenarios Tested
 
-Planned improvements:
-- Centralized logging
-- Metrics aggregation
-- Alerting system
-- Automated failover validation
+| Scenario        | Detection           | Outcome            |
+| --------------- | ------------------- | ------------------ |
+| AWS outage      | ~20–30s             | Failover to GCP    |
+| High latency    | Threshold triggered | Traffic redirected |
+| Degraded health | Health checks fail  | Recovery initiated |
 
 ---
 
-## 🧪 Testing & Simulation
+## 🔍 Reliability & Incident Analysis
 
-The platform includes endpoints to simulate and validate system behavior:
+* Root cause analysis (RCA) performed on simulated failures
+* Identified **detection latency** as primary bottleneck
+* Optimized DNS TTL and health check intervals
+* Result: Failover reduced from ~3 minutes → **<60 seconds**
 
-- `/health` → Current system health  
-- `/status` → Active environment  
-- `/metrics` → Runtime metrics  
-- `/failover` → Simulated failover trigger  
+---
+
+## 📊 Observability
+
+Endpoints available:
+
+* `/health` → system health
+* `/status` → active cloud environment
+* `/metrics` → runtime metrics
+* `/failover` → simulated failover trigger
+
+Example:
+
+```
+requests_total 3
+failovers_total 1
+last_decision{decision="FAILOVER"} 1
+```
 
 ---
 
 ## 🛠️ Tech Stack
 
-- AWS  
-- Google Cloud (GCP)  
-- Terraform  
-- Kubernetes  
-- Docker  
-- GitHub Actions  
+* AWS
+* Google Cloud (GCP)
+* Terraform
+* Kubernetes
+* Docker
+* GitHub Actions
 
 ---
 
 ## ⚖️ Design Trade-offs
 
-| Approach        | Pros                          | Cons                              |
-|----------------|-------------------------------|-----------------------------------|
-| Active-Passive | Lower cost, simpler design    | Slightly slower failover          |
-| Active-Active  | Faster failover               | Higher cost, operational complexity |
+| Approach       | Pros                       | Cons                                |
+| -------------- | -------------------------- | ----------------------------------- |
+| Active-Passive | Lower cost, simpler design | Slightly slower failover            |
+| Active-Active  | Faster failover            | Higher cost, operational complexity |
 
-This project intentionally uses **active-passive** to balance cost and reliability while still meeting defined RTO/RPO targets.
+This project intentionally uses **active-passive** to balance cost, reliability, and operational complexity while meeting defined RTO/RPO targets.
 
 ---
 
 ## 🔮 Future Improvements
 
-- Global load balancing (latency-based routing)  
-- Enhanced observability stack  
-- Automated chaos testing  
-- Security hardening and compliance checks  
+* Centralized observability (Grafana / Datadog)
+* Automated failover validation testing
+* Global load balancing (latency-based routing)
+* Security and compliance enhancements
 
 ---
 
 ## 💡 Key Takeaways
 
-- Designed for failure, not just uptime  
-- Prioritized **reliability over complexity**  
-- Focused on **real-world constraints and trade-offs**  
-- Demonstrates **SRE principles in practice**  
+* Designed for failure, not just uptime
+* Built around **business SLAs (RTO/RPO)**
+* Focused on **real-world tradeoffs**
+* Demonstrates **SRE principles in practice**
 
 ---
 
 ## 👤 Author
 
-Brian Lasky  
-Cloud / DevOps Engineer → Site Reliability Engineering (SRE)  
+Brian Lasky
+Cloud / DevOps Engineer → Site Reliability Engineering (SRE)
 
 ---
 
-## 📎 Repository Structure
+## 📁 Repository Structure
+
+```
+infrastructure/
+  aws/
+  gcp/
+  kubernetes/
+docs/
+app/
+.github/workflows/
+```

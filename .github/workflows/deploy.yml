@@ -1,0 +1,45 @@
+name: Deploy to S3 & CloudFront
+
+on:
+  push:
+    branches: [main]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GitHubActionsRole
+          aws-region: us-east-1
+
+      - name: Sync website assets to S3
+        run: |
+          aws s3 sync . s3://brianmlasky-portfolio-dev \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude "node_modules/*" \
+            --exclude ".gitignore" \
+            --exclude "README.md" \
+            --exclude "terraform/*" \
+            --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E2H3FTK4KRZNQE \
+            --paths "/*"
+
+      - name: Deployment Status
+        run: echo "✅ Deployment completed successfully!"

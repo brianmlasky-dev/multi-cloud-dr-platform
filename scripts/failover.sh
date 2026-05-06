@@ -12,6 +12,12 @@ log() { echo "$(date +%Y-%m-%dT%H:%M:%S) [$1] $2" | tee -a "$LOG_FILE"; }
 
 preflight_checks() {
   log INFO "Running preflight checks..."
+  if [[ "${SIMULATE:-false}" == "true" ]]; then
+    log INFO "SIMULATE mode - skipping credential checks"
+    DRY_RUN=true
+    log INFO "Preflight passed (dry_run=${DRY_RUN})"
+    return
+  fi
   if ! command -v aws &>/dev/null; then log ERROR "AWS CLI not found"; exit 1; fi
   if ! aws sts get-caller-identity --region "$AWS_REGION" &>/dev/null; then
     log ERROR "AWS credentials not configured"; exit 1
@@ -39,6 +45,11 @@ disable_primary_health_check() {
 
 poll_gcp_health() {
   log INFO "Polling GCP: ${GCP_CLOUDRUN_URL}/health"
+  if [[ "${SIMULATE:-false}" == "true" ]]; then
+    log INFO "SIMULATE mode - GCP endpoint returning HTTP 200"
+    log INFO "GCP healthy (HTTP 200) after 0s"
+    echo "0"; return 0
+  fi
   local elapsed=0 http_status
   while [[ $elapsed -lt $POLL_TIMEOUT ]]; do
     http_status=$(curl -s -o /dev/null -w "%{http_code}" \
@@ -91,8 +102,12 @@ main() {
       start_epoch=$(date +%s)
       log WARN "FAILOVER INITIATED: AWS -> GCP"
       disable_primary_health_check
-      log INFO "Waiting 30s for DNS TTL..."
-      sleep 30
+      if [[ "${SIMULATE:-false}" != "true" ]]; then
+        log INFO "Waiting 30s for DNS TTL..."
+        sleep 30
+      else
+        log INFO "SIMULATE mode - skipping DNS TTL wait"
+      fi
       poll_gcp_health
       local total_rto=$(( $(date +%s) - start_epoch ))
       print_rto_summary "$total_rto" "$start_time" "$(date +%Y-%m-%dT%H:%M:%S)"

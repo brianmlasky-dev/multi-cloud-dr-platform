@@ -1,3 +1,10 @@
+# ─────────────────────────────────────────────────────────────
+# Multi-Cloud DR Platform - Demo Application
+# Author: Brian M. Lasky
+# Project: NorthStar Commerce DR Platform
+# GitHub:  github.com/brianmlasky/multi-cloud-dr-platform
+# ─────────────────────────────────────────────────────────────
+
 from flask import Flask, jsonify, render_template
 import os
 import datetime
@@ -5,17 +12,10 @@ import random
 
 app = Flask(__name__)
 
-<<<<<<< HEAD
-# Crestline Financial Payment Platform - Demo App
-# Author: Brian M. Lasky
-# Organization: Crestline Financial
-
-=======
->>>>>>> 71c5ce5 (Fix Flask app and verify working demo routes)
 CLOUD_PROVIDER = os.environ.get("CLOUD_PROVIDER", "aws")
-ENVIRONMENT = os.environ.get("ENVIRONMENT", "production")
-VERSION = "1.0.0"
-START_TIME = datetime.datetime.utcnow()
+ENVIRONMENT    = os.environ.get("ENVIRONMENT", "production")
+VERSION        = "1.0.0"
+START_TIME     = datetime.datetime.utcnow()
 
 
 def get_uptime():
@@ -25,6 +25,18 @@ def get_uptime():
     return f"{hours}h {minutes}m {seconds}s"
 
 
+def get_region():
+    return "us-east-1" if CLOUD_PROVIDER == "aws" else "us-central1"
+
+
+def get_role():
+    return "PRIMARY" if CLOUD_PROVIDER == "aws" else "STANDBY"
+
+
+# ─────────────────────────────────────────
+# Routes
+# ─────────────────────────────────────────
+
 @app.route("/")
 def index():
     return render_template(
@@ -33,103 +45,86 @@ def index():
         environment=ENVIRONMENT,
         version=VERSION,
         uptime=get_uptime(),
-        region="us-east-1" if CLOUD_PROVIDER == "aws" else "us-central1",
-        status="PRIMARY" if CLOUD_PROVIDER == "aws" else "STANDBY",
+        region=get_region(),
+        status=get_role(),
     )
 
 
 @app.route("/health")
 def health():
-    return jsonify(
-        {
-            "status": "healthy",
-            "cloud": CLOUD_PROVIDER,
-            "environment": ENVIRONMENT,
-            "version": VERSION,
-            "uptime": get_uptime(),
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
-        }
-    ), 200
+    return jsonify({
+        "status":      "healthy",
+        "cloud":       CLOUD_PROVIDER,
+        "environment": ENVIRONMENT,
+        "version":     VERSION,
+        "uptime":      get_uptime(),
+        "timestamp":   datetime.datetime.utcnow().isoformat() + "Z",
+    }), 200
 
 
 @app.route("/status")
 def status():
-    return jsonify(
-        {
-            "platform": "Crestline Financial Payment Platform",
-            "organization": "Crestline Financial",
-            "author": "Brian M. Lasky",
-            "active_cloud": CLOUD_PROVIDER.upper(),
-            "region": "us-east-1" if CLOUD_PROVIDER == "aws" else "us-central1",
-            "role": "PRIMARY" if CLOUD_PROVIDER == "aws" else "STANDBY",
-            "environment": ENVIRONMENT,
-            "version": VERSION,
-            "uptime": get_uptime(),
-            "rto_target": "5-15 minutes",
-            "rpo_target": "15-60 minutes",
-            "availability_target": "99.95%",
-            "services": {
-                "compute": "ECS Fargate" if CLOUD_PROVIDER == "aws" else "Cloud Run",
-<<<<<<< HEAD
-                "database": "RDS PostgreSQL"
-                if CLOUD_PROVIDER == "aws"
-                else "Cloud SQL PostgreSQL",
-                "storage": "S3 Bucket" if CLOUD_PROVIDER == "aws" else "GCS Bucket",
-                "dns": "Route 53 Failover",
-                "monitoring": "CloudWatch"
-                if CLOUD_PROVIDER == "aws"
-                else "GCP Monitoring",
-=======
-                "database": "RDS PostgreSQL" if CLOUD_PROVIDER == "aws" else "Cloud SQL PostgreSQL",
-                "storage": "S3 Bucket" if CLOUD_PROVIDER == "aws" else "GCS Bucket",
-                "dns": "Route 53 Failover",
-                "monitoring": "CloudWatch" if CLOUD_PROVIDER == "aws" else "GCP Monitoring",
->>>>>>> 71c5ce5 (Fix Flask app and verify working demo routes)
-            },
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
-        }
-    ), 200
+    return jsonify({
+        "platform":             "NorthStar Commerce DR Platform",
+        "author":               "Brian M. Lasky",
+        "active_cloud":         CLOUD_PROVIDER.upper(),
+        "region":               get_region(),
+        "role":                 get_role(),
+        "environment":          ENVIRONMENT,
+        "version":              VERSION,
+        "uptime":               get_uptime(),
+        "rto_target":           "5-15 minutes",
+        "rpo_target":           "15-60 minutes",
+        "availability_target":  "99.95%",
+        "services": {
+            "compute":    "ECS Fargate"          if CLOUD_PROVIDER == "aws" else "Cloud Run",
+            "database":   "RDS PostgreSQL"       if CLOUD_PROVIDER == "aws" else "Cloud SQL PostgreSQL",
+            "storage":    "S3 Bucket"            if CLOUD_PROVIDER == "aws" else "GCS Bucket",
+            "dns":        "Route 53 Failover",
+            "monitoring": "CloudWatch"           if CLOUD_PROVIDER == "aws" else "GCP Monitoring",
+        },
+        "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+    }), 200
 
 
 @app.route("/failover")
 def failover():
     target = "gcp" if CLOUD_PROVIDER == "aws" else "aws"
-    return jsonify(
-        {
-            "failover_simulation": True,
-            "from_cloud": CLOUD_PROVIDER.upper(),
-            "to_cloud": target.upper(),
-            "steps": [
-                "1. Health check failure detected on primary",
-                "2. Route 53 DNS failover triggered",
-                "3. Traffic rerouted to standby region",
-                "4. Standby Cloud Run scaled up",
-                "5. Cloud SQL promoted to primary",
-                "6. Service restored successfully",
-            ],
-            "estimated_rto": "5-15 minutes",
-            "estimated_rpo": "15-60 minutes",
-            "status": "SIMULATION COMPLETE",
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
-        }
-    ), 200
+    return jsonify({
+        "failover_simulation": True,
+        "note":                "Simulated failover sequence — infrastructure wired via Terraform",
+        "from_cloud":          CLOUD_PROVIDER.upper(),
+        "to_cloud":            target.upper(),
+        "steps": [
+            "1. Health check failure detected on primary",
+            "2. Route 53 DNS failover triggered",
+            "3. Traffic rerouted to standby region",
+            "4. Standby Cloud Run scaled to handle load",
+            "5. Cloud SQL replica promoted to primary",
+            "6. Service restored — RTO target met",
+        ],
+        "estimated_rto": "5-15 minutes",
+        "estimated_rpo": "15-60 minutes",
+        "status":        "SIMULATION COMPLETE",
+        "timestamp":     datetime.datetime.utcnow().isoformat() + "Z",
+    }), 200
 
 
 @app.route("/metrics")
 def metrics():
-    return jsonify(
-        {
-            "uptime": get_uptime(),
-            "requests_served": random.randint(10000, 99999),
-            "avg_response_time_ms": round(random.uniform(12.5, 45.0), 2),
-            "error_rate_percent": round(random.uniform(0.01, 0.05), 3),
-            "cpu_utilization_percent": round(random.uniform(15.0, 45.0), 1),
-            "memory_utilization_percent": round(random.uniform(30.0, 60.0), 1),
-            "db_connections_active": random.randint(5, 25),
-            "cloud": CLOUD_PROVIDER.upper(),
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
-        }
-    ), 200
+    # Note: values are simulated for demonstration purposes
+    return jsonify({
+        "note":                        "Simulated metrics — for architecture demonstration",
+        "uptime":                      get_uptime(),
+        "cloud":                       CLOUD_PROVIDER.upper(),
+        "requests_served":             random.randint(10000, 99999),
+        "avg_response_time_ms":        round(random.uniform(12.5, 45.0), 2),
+        "error_rate_percent":          round(random.uniform(0.01, 0.05), 3),
+        "cpu_utilization_percent":     round(random.uniform(15.0, 45.0), 1),
+        "memory_utilization_percent":  round(random.uniform(30.0, 60.0), 1),
+        "db_connections_active":       random.randint(5, 25),
+        "timestamp":                   datetime.datetime.utcnow().isoformat() + "Z",
+    }), 200
 
 
 if __name__ == "__main__":

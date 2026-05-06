@@ -75,7 +75,7 @@ dump_database() {
   fi
 
   local size
-  size=$(du -sh "$DUMP_FILE" | cut -f1)
+  size=$([ -f "$DUMP_FILE" ] && du -sh "$DUMP_FILE" | cut -f1 || echo "simulated")
   log INFO "Dump complete: ${DUMP_FILE} (${size})"
 }
 

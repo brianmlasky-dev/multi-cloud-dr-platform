@@ -13,7 +13,7 @@ resource "aws_route53_health_check" "primary" {
   resource_path     = "/health"
   failure_threshold = 3
   request_interval  = 30
-  tags = { Name = "${var.project_name}-primary-hc", Role = "primary" }
+  tags              = { Name = "${var.project_name}-primary-hc", Role = "primary" }
 }
 
 resource "aws_route53_health_check" "secondary" {
@@ -23,7 +23,7 @@ resource "aws_route53_health_check" "secondary" {
   resource_path     = "/health"
   failure_threshold = 3
   request_interval  = 30
-  tags = { Name = "${var.project_name}-secondary-hc", Role = "secondary" }
+  tags              = { Name = "${var.project_name}-secondary-hc", Role = "secondary" }
 }
 
 resource "aws_route53_record" "primary" {

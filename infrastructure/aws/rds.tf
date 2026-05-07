@@ -71,9 +71,9 @@ resource "aws_db_instance" "primary" {
   maintenance_window      = "Mon:04:00-Mon:05:00"
 
   # Portfolio cost controls
-  skip_final_snapshot     = true   # SIMULATION: would be false in production
-  deletion_protection     = false  # SIMULATION: would be true in production
-  publicly_accessible     = false  # RDS stays private — no public exposure
+  skip_final_snapshot = true  # SIMULATION: would be false in production
+  deletion_protection = false # SIMULATION: would be true in production
+  publicly_accessible = false # RDS stays private — no public exposure
 
   # Performance Insights (free tier 7 days)
   performance_insights_enabled = true

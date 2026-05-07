@@ -11,39 +11,48 @@ permissions:
 
 jobs:
   validate-aws:
+    name: Validate AWS Terraform
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-      - name: Init AWS
+      - name: Terraform Init (AWS)
         working-directory: ./infrastructure/aws
         run: terraform init -backend=false
-      - name: Format AWS
+      - name: Terraform Format Check
         working-directory: ./infrastructure/aws
         run: terraform fmt -check -recursive
-      - name: Validate AWS
+      - name: Terraform Validate
         working-directory: ./infrastructure/aws
         run: terraform validate
 
   validate-gcp:
+    name: Validate GCP Terraform
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-      - name: Init GCP
+      - name: Terraform Init (GCP)
         working-directory: ./infrastructure/gcp
         run: terraform init -backend=false
-      - name: Format GCP
+      - name: Terraform Format Check
         working-directory: ./infrastructure/gcp
         run: terraform fmt -check -recursive
-      - name: Validate GCP
+      - name: Terraform Validate
         working-directory: ./infrastructure/gcp
         run: terraform validate
 
   security-scan:
+    name: Security Scan
     runs-on: ubuntu-latest
     needs: [validate-aws, validate-gcp]
     continue-on-error: true
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - name: Checkov
@@ -66,10 +75,10 @@ jobs:
           sudo apt-get install -y trivy
           trivy config .
 
-
   notify:
+    name: Notify Status
     runs-on: ubuntu-latest
     needs: [validate-aws, validate-gcp, security-scan]
     if: always()
     steps:
-      - run: echo "Pipeline completed"
+      - run: echo "Terraform workflow completed"

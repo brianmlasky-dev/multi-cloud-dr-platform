@@ -63,8 +63,9 @@ jobs:
       - name: TFSec
         continue-on-error: true
         run: |
-          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
-          tfsec .
+          wget -q https://github.com/aquasecurity/tfsec/releases/download/v1.28.14/tfsec-linux-amd64
+          chmod +x tfsec-linux-amd64
+          ./tfsec-linux-amd64 .
       - name: Trivy
         continue-on-error: true
         run: |

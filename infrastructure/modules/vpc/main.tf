@@ -18,7 +18,7 @@ resource "aws_vpc" "this" {
 # ── Public Subnets (ECS/ALB) ─────────────────────────────────
 resource "aws_subnet" "public_a" {
   vpc_id                  = aws_vpc.this.id
-  cidr_block              = cidrsubnet(var.cidr_block, 8, 1)  # 10.0.1.0/24
+  cidr_block              = cidrsubnet(var.cidr_block, 8, 1) # 10.0.1.0/24
   availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = true
 
@@ -30,7 +30,7 @@ resource "aws_subnet" "public_a" {
 
 resource "aws_subnet" "public_b" {
   vpc_id                  = aws_vpc.this.id
-  cidr_block              = cidrsubnet(var.cidr_block, 8, 2)  # 10.0.2.0/24
+  cidr_block              = cidrsubnet(var.cidr_block, 8, 2) # 10.0.2.0/24
   availability_zone       = "${var.aws_region}b"
   map_public_ip_on_launch = true
 
@@ -43,7 +43,7 @@ resource "aws_subnet" "public_b" {
 # ── Private Subnets (RDS — no internet access) ───────────────
 resource "aws_subnet" "private_a" {
   vpc_id            = aws_vpc.this.id
-  cidr_block        = cidrsubnet(var.cidr_block, 8, 10)  # 10.0.10.0/24
+  cidr_block        = cidrsubnet(var.cidr_block, 8, 10) # 10.0.10.0/24
   availability_zone = "${var.aws_region}a"
 
   tags = {
@@ -54,7 +54,7 @@ resource "aws_subnet" "private_a" {
 
 resource "aws_subnet" "private_b" {
   vpc_id            = aws_vpc.this.id
-  cidr_block        = cidrsubnet(var.cidr_block, 8, 11)  # 10.0.11.0/24
+  cidr_block        = cidrsubnet(var.cidr_block, 8, 11) # 10.0.11.0/24
   availability_zone = "${var.aws_region}b"
 
   tags = {
